@@ -1,0 +1,247 @@
+<div class="row">
+  <app-card cardTitle="{{'Job Description'|translate}}" [options]="false">
+    <div class="header">
+      <button type="button" class="btn btn-primary" (click)="addJobDescription()"
+      *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Add' | translate }}
+      </button>
+      <button type="button" (click)="exportJobDescription()" class="btn btn-primary">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Print' | translate }}
+      </button>
+      <button type="button" (click)="exportJobDescriptionHeaders()" class="btn btn-primary">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Export Template' | translate }}
+      </button>
+      <div *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))">
+        <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls">
+        <button type="button" (click)="importJobDescriptions()" class="btn btn-primary">
+          <i class="feather icon-upload"></i>
+          {{ 'Import Data' | translate }}
+        </button>
+      </div>
+      
+      <button type="button" class="btn btn-primary" (click)="generateResults()"
+      *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Generate Results' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" (click)="revertResults()"
+      *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Cancel Results' | translate }}
+      </button>
+      <div class="circles mt-auto mb-auto">
+        <div class="d-flex">
+          <div class="red"></div>
+          <span>{{ 'Not Sorted' | translate }}</span>
+        </div>
+        <div class="d-flex" style="margin-left: 20px;">
+          <div class="green"></div>
+          <span>{{ 'Sorted' | translate }}</span>
+        </div>
+        <div class="d-flex" style="margin-left: 20px;">
+          <div class="orange"></div>
+          <span>{{ 'Partially Sorted' | translate }}</span>
+        </div>
+      </div>
+
+
+      
+
+    </div>
+    <br>
+    <hr />
+    <div class="card">
+      <ngb-accordion [closeOthers]="true" activeIds="static-2">
+        <ngb-panel id="static-1">
+          <ng-template ngbPanelTitle>
+            <a href="javascript:">{{'Search Filter' |translate}}</a>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <app-card cardTitle="{{'Search Filter'|translate}}" [options]="false">
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+
+                      <div class="col-md-6 form-group" *ngFor="let field of searchFields">
+                        <label for="{{ field.name }}">{{ field.label | titlecase | translate }}</label>
+                        <select class="form-control" [id]="field.name" *ngIf="searchForm.get(field.name)" [formControlName]="field.name">
+                          <option value="" selected>{{ 'Select ' + field.label | translate }}</option>
+                          <option *ngFor="let option of field.options" [value]="option.value">{{ option.label | translate }}</option>
+                        </select>
+                    </div>
+                      
+
+                      <!-- String Fields -->
+                      <div class="col-md-6 form-group" *ngFor="let field of stringFields">
+                        <label for="{{ field.name }}">{{ field.label| titlecase |translate }}</label>
+                        <input type="text" class="form-control" [id]="field.name"
+                          [placeholder]="field.label| titlecase|translate" formControlName="{{ field.name }}" />
+                      </div>
+                      <!-- Numeric Fields -->
+                      <div class="col-md-6 form-group" *ngFor="let field of numericFields" [formGroupName]="field.name">
+                        <label for="{{ field.name }}">{{ field.label |translate}}</label>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <select class="form-control" [id]="field.name + '-condition'"
+                              [formControlName]="'condition'">
+                              <option *ngFor="let condition of field.conditions" [value]="condition.value">{{
+                                condition.label | translate }}</option>
+                            </select>
+                          </div>
+                          <ng-container *ngIf="searchForm.get(field.name)?.get('condition')">
+                            <ng-container *ngIf="searchForm.get(field.name)?.get('condition')?.value === 'range'">
+                              <div class="col-md-4">
+                                <input type="number" class="form-control" [id]="'from-' + field.name"
+                                  placeholder="{{'From'|translate}}" formControlName="min" />
+                              </div>
+                              <div class="col-md-4">
+                                <input type="number" class="form-control" [id]="'to-' + field.name"
+                                  placeholder="{{'To'|translate}}" formControlName="max" />
+                              </div>
+                            </ng-container>
+                            <ng-container *ngIf="searchForm.get(field.name)?.get('condition')?.value !== 'range'">
+                              <div class="col-md-8">
+                                <input type="number" class="form-control" [id]="field.name"
+                                  [placeholder]="field.label |translate " formControlName="value" />
+                              </div>
+                            </ng-container>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="col-md-12 button-style">
+                        <button type="submit" class="btn btn-primary">{{ 'Submit' | translate }}</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </app-card>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+
+    </div>
+    <br>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <!-- Add a checkbox for selecting all values -->
+              <input type="checkbox" (change)="selectAll($event)">
+              <i class="fas fa-trash-alt icon-position" (click)="deleteSelected()"></i>
+
+            </th>
+        <ng-container *ngFor="let column of columnData">
+          <ng-container *ngIf="column.label !== 'Delete'">
+              <!-- Render other table headers normally -->
+
+              <th 
+                  (click)="column.sortable ? sortColumn(column.name) : ''" 
+                  style="cursor: pointer; position: relative;">
+                  {{ column.label | translate }}
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                          *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                          *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
+              </th>
+          </ng-container>
+          <ng-container *ngIf="column.label === 'Delete'">
+              <th *ngIf="(role === 'Admin' || (role === 'User' && permissions.deleteJobDescription === 1))">
+                  {{ column.label | translate }}
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                          *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                          *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
+              </th>
+          </ng-container>
+      </ng-container>
+
+
+          </tr>
+        </thead>
+        
+        
+        <tbody>
+          <tr *ngFor="let job of paginateData(); let i = index">
+            <!-- <th scope="row">{{ (currentPage - 1) * pageSizeSelected + i + 1 }}</th> -->
+            <td>
+              <input type="checkbox" [checked]="isSelected(job.id)" (change)="toggleSelection($event, job.id)">
+            </td>
+            <td>
+              <div class="circles padding-top">
+                <div class="d-flex">
+                  <div [class.red]="isRed(job)" [class.orange]="isOrange(job)" [class.green]="isGreen(job)"></div>
+                </div>
+              </div>
+            </td>
+            <td>{{ job.id }}</td>
+            <td>{{ getStatusString(job.status) | translate}}</td>
+            <td>
+              <i class="fas fa-info-circle" (click)="showDetails(job.id)"></i>
+            </td>
+            <td *ngIf="this.role === 'Admin' || this.role === 'User' && this.permissions.deleteJobDescription === 1">
+              <i class="fas fa-trash-alt" (click)="deleteRecord(job.id)"></i>
+            </td>
+            <td>{{ getCategoryString(job.category) }}</td>
+            <td>{{ job.public_entity }}</td>
+            <td>{{ job.sub_entity }}</td>
+            <td>{{ job.governorate }}</td>
+            <td>{{ job.job_title }}</td>
+            <td>{{ job.work_centers }}</td>
+            <td>{{ job.assignees }}</td>
+            <td>{{ job.vacancies }}</td>
+            <td>{{ job.card_number }}</td>
+            <ng-template>
+              <td>{{ job.general }}</td>
+            </ng-template>
+            <td>{{ job.record_entry }}</td>
+            <td>{{ job.entry_date }}</td>
+            <td>{{ job.last_modifier }}</td>
+            <td>{{ job.modification_date }}</td>
+            <td>{{ job.audited_by }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-controls d-flex justify-content-between">
+      <div class="d-flex row">
+        <div class="col-md-auto mt-auto mb-auto">
+          <span style="width: 100%;" class="">Items Per Page:</span>
+        </div>
+        <div class="col-md-auto">
+          <select class="form-control" [(ngModel)]="pageSizeSelected" (change)="changePageSize(pageSizeSelected)">
+            <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+        </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-auto mt-auto mb-auto">
+          <span class="mt-auto mb-auto">{{ getRange() }} of {{ jobDescriptions.length }}</span> 
+        </div>
+        <div class="col-md-auto mt-auto mb-auto">
+          <button class="border-0 fs-4 bg-transparent" (click)="firstPage()" [disabled]="currentPage === 1">
+            <i class="fa fa-angle-double-left"></i>
+        </button>
+        <button class="border-0 fs-4 bg-transparent" (click)="previousPage()" [disabled]="currentPage === 1">
+            <i class="fa fa-angle-left bg-transparent"></i>
+        </button>
+        <button class="border-0 fs-4 bg-transparent" (click)="nextPage()" [disabled]="currentPage === totalPages">
+            <i class="fa fa-angle-right"></i>
+        </button>
+        <button class="border-0 fs-4 bg-transparent" (click)="lastPage()" [disabled]="currentPage === totalPages">
+            <i class="fa fa-angle-double-right"></i>
+        </button>
+        </div>
+
+      </div>
+
+  </div>
+  
+    
+  </app-card>
+</div>

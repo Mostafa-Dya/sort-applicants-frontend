@@ -1,0 +1,152 @@
+<div class="card">
+  <app-card cardTitle="{{ 'Sort Applicants' | translate }}" [options]="false">
+    <div class="header" >
+      <button type="button" class="btn btn-primary" (click)="generateResults()">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Generate Results' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" (click)="revertResults()">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Cancel Results' | translate }}
+      </button>
+      <div class="circles" style="margin: auto;">
+        <div class="d-flex">
+          <div class="red"></div>
+          <span>{{ 'Not Sorted' | translate }}</span>
+        </div>
+        <div class="d-flex" style="margin-left: 20px;">
+          <div class="green"></div>
+          <span>{{ 'Sorted' | translate }}</span>
+        </div>
+        <div class="d-flex" style="margin-left: 20px;">
+          <div class="orange"></div>
+          <span>{{ 'Partially Sorted' | translate }}</span>
+        </div>
+      </div>
+
+    </div>
+    <ngb-accordion [closeOthers]="true">
+      <ngb-panel *ngFor="let job of jobDescriptions" [id]="'job-' + job.id">
+        <ng-template ngbPanelTitle>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th></th>
+                    <th>{{'Status'|translate}}</th>
+                    <th>{{'Category'|translate}}</th>
+                    <th>{{'Public Entity'|translate}}</th>
+                    <th>{{'Sub Entity'|translate}}</th>
+                    <th>{{'governorate'|translate}}</th>
+                    <th>{{'Job Title'|translate}}</th>
+                    <th>{{'Work Centers'|translate}}</th>
+                    <th>{{'Separated Count'|translate}}</th>
+                    <th>{{'Vacancies Count'|translate}}</th>
+                    <th>{{'Card Number'|translate}}</th>
+                    <th>{{'Specialization'|translate}}</th>
+                    <th>{{'Record Entry'|translate}}</th>
+                    <th>{{'Entry Date'|translate}}</th>
+                    <th>{{'Last Rate'|translate}}</th>
+                    <th>{{'Modification Date'|translate}}</th>
+                    <th>{{'Verified by'|translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">{{ job.id }}</th>
+                    <td>
+                      <div class="circles padding-top">
+                        <div class="d-flex">
+                          <div [class.red]="isRed(job)" [class.orange]="isOrange(job)" [class.green]="isGreen(job)"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>{{ getStatusString(job.status) | translate}}</td>
+                    <td>{{ getCategoryString(job.category) | translate}}</td>
+                    <td>{{ job.public_entity }}</td>
+                    <td>{{ job.sub_entity }}</td>
+                    <td>{{ job.governorate }}</td>
+                    <td>{{ job.job_title }}</td>
+                    <td>
+                      {{ job.work_centers}}
+                    </td>
+                    <td>{{ job.assignees }}</td>
+                    <td>{{ job.vacancies }}</td>
+                    <td>{{ job.card_number }}</td>
+                    <td>{{ job.general }}</td>
+                    <td>{{ job.record_entry }}</td>
+                    <td>{{ job.entry_date }}</td>
+                    <td>{{ job.last_modifier }}</td>
+                    <td>{{ job.modification_date }}</td>
+                    <td>{{ job.audited_by }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+            <ng-template ngbPanelContent *ngIf="job.applicants.length === 0">
+              <div class="text-center">
+                <span >{{'No Applicants Applied for this Job Yet' |translate}}</span>
+              </div>
+            </ng-template>
+        <ng-template ngbPanelContent *ngIf="job.applicants.length !== 0"> 
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th></th>
+                  <th>{{ 'Status' | translate }}</th>
+                  <th>{{ 'Full Name' | translate }}</th>
+                  <th>{{ 'Category' | translate }}</th>
+                  <th>{{ 'Certificate' | translate }}</th>
+                  <th>{{ 'Governorate' | translate }}</th>
+                  <th>{{ 'Graduation Rate' | translate }}</th>
+                  <!-- <th>{{ 'Exam Result' | translate }}</th> -->
+                  <th>{{ 'Number of Desires' | translate }}</th>
+                  <th>{{ 'Ministry' | translate }}</th>
+                  <th>{{ 'Destination' | translate }}</th>
+                  <th>{{ 'Card Number' | translate }}</th>
+                  <th>{{ 'Desire Order' | translate }}</th>
+                  <th>{{ 'Record Entry' | translate }}</th>
+                  <th>{{ 'Entry Date' | translate }}</th>
+                  <th>{{ 'Last Modified' | translate }}</th>
+                  <th>{{ 'Modification Date' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let applicant of job.applicants" >
+                  <th scope="row">{{ applicant.id }}</th>
+                  <td>
+                    <div class="circles padding-top">
+                      <div [ngClass]="{'green': applicant.accepted === 1, 'red': applicant.accepted === 0}"></div>
+                    </div>
+                  </td>
+                  <td>{{ (applicant.status ? "Audited" : "Not Audited") | translate }}</td>
+                  <td>{{ applicant.fullName }}</td>
+                  <td>{{ getCategoryString(applicant.category) | translate}}</td>
+                  <td>{{ applicant.certificate.general }} - {{ applicant.certificate.precise }}</td>
+                  <td>{{ applicant.governorate }}</td>
+                  <td>{{ applicant.graduationRate }}</td>
+                  <!-- <td>{{ applicant.exam_result }}</td> -->
+                  <td>{{ applicant.specialization_data.length }}</td>
+                  <td>{{ applicant.destination }}</td>
+                  <td>{{ applicant.destination }} <span *ngIf="applicant.sub_entity">-</span> {{ applicant.sub_entity }}</td>
+                  <td>{{ applicant.cardNumber }}</td>
+                  <td>{{ getDesireOrderString(applicant.desireOrder) | translate}}</td>
+                  <td>{{ applicant.recordEntry }}</td>
+                  <td>{{ applicant.entryDate }}</td>
+                  <td>{{ applicant.lastModifier }}</td>
+                  <td>{{ applicant.modificationDate }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </app-card>
+
+  </div>
+  

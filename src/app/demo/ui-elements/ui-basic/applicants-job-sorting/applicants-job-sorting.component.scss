@@ -1,0 +1,36 @@
+.circles{
+    display: flex;
+    .red{
+      background-color: red;
+      width: 15px;
+      height: 15px;
+      border-radius: 14px;
+    }
+    .green{
+        background-color: green;
+        width: 15px;
+        height: 15px;
+        border-radius: 14px;
+      }
+      .orange{
+        background-color: orange;
+        width: 15px;
+        height: 15px;
+        border-radius: 14px;
+      }
+    span{
+      margin-left: 1rem;
+      color: black;
+    }
+  }
+
+  .header{
+    display: flex;
+    .circles{
+      margin-left: 5rem;
+    }
+  }
+
+  .padding-top{
+    padding-top: 0.1rem;
+  }

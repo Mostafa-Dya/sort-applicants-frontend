@@ -1,0 +1,70 @@
+<div class="row" style="width: 100%;">
+  <div class="col-sm-12">
+    <app-card cardTitle="{{this.title|translate}}" [options]="false">
+      <form [formGroup]="mainForm" (submit)="submit()" action="javascript:">
+        <div class="form-group col-md-12">
+          <label for="general">
+            {{'Certificate Name' | translate}} <span> *</span>
+          </label>
+          <input type="text" class="form-control" id="general" placeholder="{{'Certificate Name' | translate}}" formControlName="general" />
+        </div>
+        <fieldset class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-check" *ngFor="let categoryKey of categoryOrder; let i = index">
+                <input class="form-check-input" type="radio" [id]="'categoryRadio' + i" [name]="'categoryRadios'"
+                  [value]="categoryMapping[categoryKey]" formControlName="selectedCategory" />
+                <label class="form-check-label" [for]="'categoryRadio' + i">{{ categoryKey | translate }}</label>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="type" class="form-label" [class.error-label]="mainForm.get('type').invalid && mainForm.get('type').touched">
+                {{'Degree type'|translate}}<span> *</span>
+              </label>
+              <select id="type" class="form-select" aria-label="select example" required formControlName="type">
+                <option value="">{{'Select a Degree'|translate}}</option>
+                <option value="Ph.D">{{'Ph.D'|translate}}</option>
+                <option value="Master">{{'Master'|translate}}</option>
+                <option value="Bachelor">{{'Bachelor'|translate}}</option>
+                <option value="Diploma">{{'Diploma'|translate}}</option>
+                <option value="Intermediate-institute">{{'Intermediate institute'|translate}}</option>
+                <option value="Higher-Institute">{{'Higher Institute'|translate}}</option>
+                <option value="High-school">{{'High school'|translate}}</option>
+                <option value="Basic-education">{{'Basic education'|translate}}</option>
+                <option value="craftsman">{{'Craftsman'|translate}}</option>
+                <option value="board">{{'Board'|translate}}</option>
+
+              </select>
+              <span *ngIf="mainForm.get('type').invalid && mainForm.get('type').touched" >
+                 {{'Degree type is required'|translate}}
+              </span>
+            </div>
+          </div>
+        </fieldset>
+        <app-card cardTitle="{{'Accurate Description'|translate}}" [options]="false">
+          <div class="col-md-1">
+            <i (click)="addSets('precise')" class="fa-solid fa-plus"></i>
+          </div>
+          <div formArrayName="preciseData">
+            <div *ngFor="let set of preciseSets.controls; let i = index" [formGroupName]="i">
+              <div class="oneForm row">
+                <div class="form-group col-md-11">
+                  <label for="precise"></label>
+                  <input type="text" class="form-control" id="precise" placeholder="{{'Precise'|translate}}"
+                    formControlName="precise" />
+                </div>
+                <div class="col-md-1">
+                  <i (click)="removeSet(i,'precise')" class="fa-solid fa-minus alignment"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </app-card>
+        <button type="submit" class="btn btn-primary"
+        *ngIf="(role === 'Admin' || (role === 'User' && permissions.editCertificate === 1 && this.data))"
+        >{{ 'Submit' | translate }}</button>
+
+      </form>
+    </app-card>
+  </div>
+</div>

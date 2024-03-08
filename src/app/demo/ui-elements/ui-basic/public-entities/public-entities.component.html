@@ -1,0 +1,54 @@
+<div class="row">
+  <app-card cardTitle="{{ 'Public Entity' | translate }}" [options]="false">
+    <button type="button" class="btn btn-primary" (click)="addPublicEntitiy()"
+      *ngIf="(role === 'Admin' || (role === 'User' && permissions.addPublic === 1))">
+      <i class="feather icon-thumbs-up"></i>{{ 'Add' | translate }}
+    </button>
+    <hr>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        {{ node.name }}
+        <button mat-icon-button color="warn" (click)="onDelete(node)"
+          *ngIf="(role === 'Admin' || (role === 'User' && permissions.deletePublic === 1))">
+          <i class="feather icon-x"></i>
+        </button>
+        <button mat-icon-button color="primary" (click)="onPreview(node)">
+          <i class="feather icon-eye"></i>
+        </button>
+      </mat-tree-node>
+
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <!-- Render expand/collapse button -->
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+          </mat-icon>
+        </button>
+        {{ node.name }}
+        <button mat-icon-button color="warn" (click)="onDelete(node)"
+          *ngIf="(role === 'Admin' || (role === 'User' && permissions.deletePublic === 1))">
+          <i class="feather icon-x"></i>
+        </button>
+        <!-- Add preview button -->
+        <button mat-icon-button color="primary" *ngIf="node.level === 0" (click)="onPreview(node)">
+          <i class="feather icon-eye"></i>
+        </button>
+
+        <!-- Add nested mat-tree-node for affiliated entities -->
+        <mat-tree-node *ngFor="let affiliatedEntity of node.children" matTreeNodePadding>
+          {{ affiliatedEntity.name }}
+          <!-- Render buttons for affiliated entity -->
+          <!-- Add nested mat-tree-node for sub-affiliated entities -->
+          <mat-tree-node *ngFor="let subAffiliatedEntity of affiliatedEntity.children" matTreeNodePadding>
+            {{ subAffiliatedEntity.name }}
+            <!-- Render buttons for sub-affiliated entity -->
+          </mat-tree-node>
+        </mat-tree-node>
+      </mat-tree-node>
+    </mat-tree>
+  </app-card>
+</div>

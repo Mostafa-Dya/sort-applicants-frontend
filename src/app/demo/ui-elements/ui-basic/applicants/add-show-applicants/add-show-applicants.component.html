@@ -1,0 +1,429 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="{{ 'Applicant Card' | translate }}" [options]="false">
+            <div class="row">
+                <div class="col-md-12">
+                    <form [formGroup]="mainForm" (submit)="submit()" action="javascript:">
+                        <div class="row">
+                            <div class="form-group col-md-12 mb-2" *ngIf="this.applicantID">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <label for="statusCheckbox" class="form-label">{{'Status'|translate}}</label>
+                                    </div>
+                                    <div class="form-check col-md-2">
+                                        <input type="checkbox" id="statusCheckbox" class="form-check-input" formControlName="status">
+                                      </div>
+                                </div>
+
+                              </div>
+                            <div class="form-group col-md-6">
+                                <label for="governorate" class="form-label"
+                                    [class.error-label]="mainForm.get('governorate').invalid && mainForm.get('governorate').touched">
+                                    {{ 'governorate' | translate }}<span> *</span>
+                                </label>
+                                <select id="governorate" class="form-select" aria-label="select example" required
+                                    formControlName="governorate">
+                                    <option value="">{{ 'Select Governorate' | translate }}</option>
+                                    <option *ngFor="let governorate of governorateNames" [value]="governorate">{{
+                                        governorate }}</option>
+                                </select>
+                                <span
+                                    *ngIf="mainForm.get('governorate').invalid && mainForm.get('governorate').touched">
+                                    {{ 'Governorate is required' | translate }}
+                                </span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="category" class="form-label"
+                                    [class.error-label]="mainForm.get('category').invalid && mainForm.get('category').touched">
+                                    {{ 'Category' | translate }}<span> *</span>
+                                </label>
+                                <select id="category" class="form-select" aria-label="select example" required
+                                    formControlName="category">
+                                    <option value="">{{ 'Select Category' | translate }}</option>
+                                    <option value="1">{{ 'Category 1' | translate }}</option>
+                                    <option value="2">{{ 'Category 2' | translate }}</option>
+                                    <option value="3">{{ 'Category 3' | translate }}</option>
+                                    <option value="4">{{ 'Category 4' | translate }}</option>
+                                    <option value="5">{{ 'Category 5' | translate }}</option>
+                                </select>
+                                <span *ngIf="mainForm.get('category').invalid && mainForm.get('category').touched">
+                                    {{ 'Category is required' | translate }}
+                                </span>
+                            </div>
+
+                            <!-- <div class="form-group col-md-4">
+                                <label for="series" class="form-label">
+                                    {{ 'Series' | translate }}
+                                </label>
+                                <input type="number" class="form-control" id="series"
+                                    placeholder="{{ 'Series' | translate }}" formControlName="series" />
+                            </div> -->
+                            <div class="form-group col-md-4">
+                                <label for="fullName" class="form-label"
+                                    [class.error-label]="mainForm.get('fullName').invalid && mainForm.get('fullName').touched">
+                                    {{ 'Full Name' | translate }}<span> *</span>
+                                </label>
+                                <input type="text" class="form-control" id="fullName"
+                                    placeholder="{{ 'Full Name' | translate }}" formControlName="fullName" />
+                                <span *ngIf="mainForm.get('fullName').invalid && mainForm.get('fullName').touched">
+                                    {{ 'Full Name is required' | translate }}
+                                </span>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="motherName" class="form-label"
+                                    [class.error-label]="mainForm.get('motherName').invalid && mainForm.get('motherName').touched">
+                                    {{ 'Mother\'s Name' | translate }}<span> *</span>
+                                </label>
+                                <input type="text" class="form-control" id="motherName"
+                                    placeholder="{{ 'Mother\'s Name' | translate }}" formControlName="motherName" />
+                                <span *ngIf="mainForm.get('motherName').invalid && mainForm.get('motherName').touched">
+                                    {{ 'Mother\'s Name is required' | translate }}
+                                </span>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="idNumber" class="form-label"
+                                    [class.error-label]="mainForm.get('idNumber').invalid && mainForm.get('idNumber').touched">
+                                    {{ 'National ID Number' | translate }}<span> *</span>
+                                </label>
+                                <input type="string" class="form-control" id="idNumber"
+                                    placeholder="{{ 'National ID Number' | translate }}" formControlName="idNumber" />
+                                <span *ngIf="mainForm.get('idNumber').invalid && mainForm.get('idNumber').touched">
+                                    {{ 'National ID Number is required' | translate }}
+                                </span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="graduationDate" class="form-label"
+                                    [class.error-label]="mainForm.get('graduationDate').invalid && mainForm.get('graduationDate').touched">
+                                    {{ 'Graduation Year' | translate }}<span> *</span>
+                                </label>
+                                <input type="date" class="form-control" id="graduationDate"
+                                    placeholder="{{ 'Graduation Year' | translate }}"
+                                    formControlName="graduationDate" />
+                                <span
+                                    *ngIf="mainForm.get('graduationDate').invalid && mainForm.get('graduationDate').touched">
+                                    {{ 'Graduation Year is required' | translate }}
+                                </span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="graduationRate" class="form-label"
+                                    [class.error-label]="mainForm.get('graduationRate').invalid && mainForm.get('graduationRate').touched">
+                                    {{ 'Graduation Rate' | translate }}<span> *</span>
+                                </label>
+                                <input type="number" class="form-control" id="graduationRate"
+                                    placeholder="{{ 'Graduation Rate' | translate }}"
+                                    formControlName="graduationRate" />
+                                <span
+                                    *ngIf="mainForm.get('graduationRate').invalid && mainForm.get('graduationRate').touched">
+                                    {{ 'Graduation Rate is required' | translate }}
+                                </span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="birthDate" class="form-label">
+                                    {{ 'Date of Birth' | translate }}
+                                </label>
+                                <input type="date" class="form-control" id="birthDate"
+                                    placeholder="{{ 'Date of Birth' | translate }}" formControlName="birthDate" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="residence" class="form-label">{{ 'residence' | translate }}<span> *</span></label>
+                                <!-- Change the select element to an input element -->
+                                <input id="residence" class="form-control" type="text" formControlName="residence">
+                            </div>
+                            
+
+                            <div class="form-group col-md-6">
+                                <label for="institute" class="form-label">
+                                    {{ 'Institute' | translate }}
+                                </label>
+                                <input type="text" class="form-control" id="institute"
+                                    placeholder="{{ 'Institute' | translate }}" formControlName="institute" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exactSpecialization" class="form-label">
+                                    {{ 'Exact Specialization' | translate }}
+                                </label>
+                                <input type="text" class="form-control" id="exactSpecialization"
+                                    placeholder="{{ 'Exact Specialization' | translate }}"
+                                    formControlName="exactSpecialization" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="certificate" class="form-label"
+                                  [class.error-label]="mainForm.get('certificate').invalid && mainForm.get('certificate').touched">
+                                  {{ 'Certificate' | translate }}<span> *</span>
+                                </label>
+                                <select id="certificate" class="form-select" formControlName="certificate" [(ngModel)]="selectedCertificate">
+                                  <option value="" selected>{{ 'Select Certificate' | translate }}</option>
+                                  <option *ngFor="let certificate of allCertificates" [ngValue]="certificate">
+                                    {{ certificate.general.name }} -&gt; {{ certificate.precise.name }}
+                                  </option>
+                                </select>
+                                <span *ngIf="mainForm.get('certificate').invalid && mainForm.get('certificate').touched">
+                                  {{ 'Number of Work Centers is required' | translate }}
+                                </span>
+                              </div>
+                              
+
+                            <div class="form-group col-md-12">
+                                <label for="notes" class="form-label">
+                                    {{ 'Notes' | translate }}
+                                </label>
+                                <input type="text" class="form-control" id="notes"
+                                    placeholder="{{ 'Notes' | translate }}" formControlName="notes" />
+                            </div>
+
+                            <app-card style="margin-top: 5%;" cardTitle="{{ 'Result' | translate }}" [options]="false">
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <label for="destination" class="form-label">{{ 'Destination' | translate }}</label>
+                                        <input type="text" class="form-control" id="destination"
+                                            placeholder="{{ 'Destination' | translate }}"
+                                            formControlName="destination" />
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="named" class="form-label">{{ 'Designation' | translate }}</label>
+                                        <input type="text" class="form-control" id="named"
+                                            placeholder="{{ 'Designation' | translate }}" formControlName="named" />
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="cardNumber" class="form-label">{{ 'Card Number' | translate }}</label>
+                                        <input type="text" class="form-control" id="cardNumber"
+                                            placeholder="{{ 'Card Number' | translate }}"
+                                            formControlName="cardNumber" />
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="desireOrder" class="form-label">{{ 'Desire Order' | translate }}</label>
+                                        <input type="text" class="form-control" id="desireOrder"
+                                            placeholder="{{ 'Desire Order' | translate }}"
+                                            formControlName="desireOrder" />
+                                    </div>
+                                </div>
+                            </app-card>
+
+                            <app-card cardTitle="{{ 'Migration Information' | translate }}" [options]="false">
+                             <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label for="desiredGovernorate" class="form-label">
+                                        {{ 'Desired Governorate' | translate }}<span> *</span>
+                                    </label>
+                                    <select id="desiredGovernorate" class="form-select" aria-label="select example"
+                                        formControlName="desiredGovernorate">
+                                        <option value="">{{ 'Desired Governorate' | translate }}</option>
+                                        <option *ngFor="let governorate of governorateNames" [value]="governorate">{{
+                                            governorate }}</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-1">
+                                    <i (click)="addSpecializationSet()"
+                                        class="fa-solid fa-plus alignment"></i>
+                                </div>
+                             </div>
+
+                                <div formArrayName="specializationData">
+                                    <div *ngFor="let set of specializationSets.controls; let i = index"
+                                        [formGroupName]="i">
+                                        <div class="oneForm row">
+                                            <div class="form-group col-md-3">
+                                                <label for="desire{{i}}" class="form-label">{{ 'Desire' | translate }}
+                                                    {{i+1}}</label>
+                                                <select id="desire{{i}}" class="form-select"
+                                                    aria-label="select example" required
+                                                    formControlName="desire">
+                                                    <option value="">{{ 'Desire' |
+                                                        translate }}</option>
+                                                    <option
+                                                        *ngFor="let publicEntity of publicEntityName"
+                                                        [value]="publicEntity">
+                                                        {{ publicEntity }}
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                              <div class="form-group col-md-3">
+                                                <label for="namedVal{{i}}" class="form-label"> {{ 'Designation' |
+                                                    translate }} {{i+1}}</label>
+                                                <input type="text" class="form-control" id="namedVal{{i}}"
+                                                    placeholder="{{ 'Card Number' | translate }}"
+                                                    formControlName="namedVal" />
+                                            </div>
+                                                                                        
+
+                                            <div class="form-group col-md-3">
+                                                <label for="cardNumberVal{{i}}" class="form-label"> {{ 'Card Number' |
+                                                    translate }} {{i+1}}</label>
+                                                <input type="text" class="form-control" id="cardNumberVal{{i}}"
+                                                    placeholder="{{ 'Card Number' | translate }}"
+                                                    formControlName="cardNumberVal" />
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <i (click)="removeSpecializationSet(i)"
+                                                    class="fa-solid fa-minus alignment"></i>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <i (click)="addSpecializationSet()"
+                                                    class="fa-solid fa-plus alignment"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <br><br>
+                                <div class="oneForm row">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table">
+                                                <!-- Table Header -->
+                                                <thead>
+                                                    <tr style="text-align: center;">
+                                                        <th>
+                                                            <div>
+                                                                <i (click)="addDesireSet()"
+                                                                    class="fa-solid fa-plus"></i>
+                                                            </div>
+                                                        </th>
+                                                        <th>{{ 'Governorate' | translate }}</th>
+                                                        <th>{{ 'Main Side' | translate }}</th>
+                                                        <th>{{ 'Card Number' | translate }} </th>
+                                                        <th>{{ 'Public Entity' | translate }} </th>
+                                                        <th>{{ 'Number of Centers' | translate }} </th>
+                                                        <th>{{ 'Specialization' | translate }} </th>
+                                                        <th>{{ 'Job Title' | translate }} </th>
+                                                        <th>{{ 'Primary Specialization' | translate }} </th>
+                                                        <th>{{ 'Specified Specialization' | translate }} </th>
+                                                    </tr>
+                                                </thead>
+                                                <!-- Table Body -->
+                                                <tbody formArrayName="desireData">
+                                                    <tr *ngFor="let set of desireSets.controls; let i = index"
+                                                        [formGroupName]="i">
+                                                        <td>
+                                                            <div class="">
+                                                                <i (click)="removeDesireSet(i)"
+                                                                    class="fa-solid fa-minus"></i>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <select id="governorateDesire{{i}}" class="form-select"
+                                                                    aria-label="select example" required
+                                                                    formControlName="governorateDesire">
+                                                                    <option value="">{{ 'Governorate' | translate }}
+                                                                    </option>
+                                                                    <option *ngFor="let governorate of governorateNames"
+                                                                        [value]="governorate">
+                                                                        {{ governorate }}
+                                                                    </option>
+                                                                </select>
+                                                                <span
+                                                                    *ngIf="mainForm.get('desireData.' + i + '.governorateDesire').invalid && mainForm.get('desireData.' + i + '.governorateDesire').touched">
+                                                                    {{ 'Governorate is required' | translate }}
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <select id="publicEntitySide{{i}}" class="form-select"
+                                                                    aria-label="select example" required
+                                                                    formControlName="publicEntitySide">
+                                                                    <option value="">{{ 'publicEntitySide' |
+                                                                        translate }}</option>
+                                                                    <option
+                                                                        *ngFor="let publicEntity of publicEntityName"
+                                                                        [value]="publicEntity">
+                                                                        {{ publicEntity }}
+                                                                    </option>
+                                                                </select>
+                                                                <span
+                                                                    *ngIf="mainForm.get('desireData.' + i + '.publicEntitySide').invalid && mainForm.get('desireData.' + i + '.publicEntitySide').touched">
+                                                                    {{ 'Main Side is required' | translate }}
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width: 11%!important;">
+                                                            <div class="form-group">
+                                                                <!-- Update formControlName to directly use 'cardNumberDesire' -->
+                                                                <input type="text" class="form-control"
+                                                                    id="cardNumberDesire{{i}}"
+                                                                    placeholder="{{ 'Card Number' | translate }}"
+                                                                    formControlName="cardNumberDesire" />
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <span>{{ mainForm.get('desireData.' + i +
+                                                                    '.publicEntity')?.value }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <span>{{ mainForm.get('desireData.' + i +
+                                                                    '.numberOfCenters')?.value }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group"
+                                                            style="width: 130px;
+                                                            letter-spacing: normal;
+                                                            white-space: break-spaces;"
+                                                            >
+                                                                <span>{{ mainForm.get('desireData.' + i +
+                                                                    '.primarySpecialization')?.value }}</span>
+                                                                    <span>-&gt;</span>
+                                                                <span>{{ mainForm.get('desireData.' + i +
+                                                                    '.specifiedSpecialization')?.value }}</span>
+                                                            </div>
+                                                        </td>
+
+
+
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <span>{{ mainForm.get('desireData.' + i +
+                                                                    '.jobTitle')?.value }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <span>{{ mainForm.get('desireData.' + i +
+                                                                    '.primarySpecialization')?.value }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <span>{{ mainForm.get('desireData.' + i +
+                                                                    '.specifiedSpecialization')?.value }}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </app-card>
+
+                        </div>
+                        <div class="col-md-12 button-style" 
+                        *ngIf="(role === 'Admin' ||
+                        (role === 'User' && permissions.editApplicants === 1 && this.applicantID))">
+                        <button type="submit" class="btn btn-primary">{{ 'Submit' | translate }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>

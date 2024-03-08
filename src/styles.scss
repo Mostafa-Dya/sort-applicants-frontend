@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "scss/variables";
+
+/* fonts-icon */
+@import "scss/fonts/fontawesome/scss/fontawesome";
+@import "scss/fonts/feather/iconfont";
+
+@import "scss/general";
+@import "scss/generic";
+@import "scss/mixins/function";
+
+/* important element */
+@import "scss/menu/menu-lite";
+
+/* basic elements */
+@import "scss/theme-elements/theme-elements";
+
+/* third party modules style*/
+@import "scss/plugins/plugins";
+
+@import "scss/custom";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.alignment{
+    text-align: center;
+    top: 30px;
+    position: relative;
+}
+
+.button-style{
+    text-align: center;
+    margin-top: 5%;
+}
+
+.mat-mdc-snack-bar-container {
+    &.blue-snackbar {
+      --mdc-snackbar-container-color: #3f4d67;
+      --mat-snack-bar-button-color: #04a9f5;
+      --mdc-snackbar-supporting-text-color: #fff;
+    }
+  }

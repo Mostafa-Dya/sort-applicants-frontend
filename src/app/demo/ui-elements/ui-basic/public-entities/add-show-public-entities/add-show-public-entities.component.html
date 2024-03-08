@@ -1,0 +1,61 @@
+<div class="row" style="width: 100%;">
+  <div class="col-sm-12">
+    <app-card cardTitle="{{'Add Public Entity'|translate}}" [options]="false">
+      <form [formGroup]="mainForm" (submit)="submit()" action="javascript:">
+        <div class="form-group col-md-12">
+          <label for="card_number">
+            {{'Entity Name'|translate}} <span> *</span>
+          </label>
+          <input type="text" class="form-control" id="card_number" placeholder="{{'Public Entity'|translate}}"
+            formControlName="publicEntity" />
+        </div>
+        <br>
+
+        <app-card cardTitle="{{'Add Sub Entity' | translate}}" [options]="false">
+          <div class="col-md-1">
+            <i (click)="addSets('subEntity')" class="fa-solid fa-plus"></i>
+          </div>
+          <div formArrayName="subEntitiesData">
+            <div *ngFor="let set of subEntitiesSets.controls; let i = index" [formGroupName]="i">
+              <div class="oneForm row">
+                <div class="form-group col-md-11">
+                  <label for="subEntity"></label>
+                  <input type="text" class="form-control" id="subEntity" placeholder="{{'Sub Entity'|translate}}"
+                    formControlName="name" />
+
+                  <!-- Affiliated Entities Section -->
+                  <app-card *ngIf="set.get('name').value" cardTitle="{{'Add Affiliated Entity'|translate}}" [options]="false">
+                    <!-- Only show the "Add Affiliated Entity" button if the sub-entity has a name -->
+                    <div class="col-md-1">
+                      <i (click)="addAffiliatedEntities(set)" class="fa-solid fa-plus"></i>
+                    </div>
+                    <div formArrayName="affiliatedEntities">
+                      <div *ngFor="let affSet of getAffiliatedEntitiesControls(set); let j = index" [formGroupName]="j">
+                        <div class="oneForm row">
+                          <div class="form-group col-md-11">
+                            <label for="affEntity"></label>
+                            <input type="text" class="form-control" id="affEntity" placeholder="{{'Affiliated Entity'|translate}}"
+                              formControlName="affiliatedEntityName" />
+                          </div>
+                          <div class="col-md-1">
+                            <i (click)="removeAffiliatedEntities(set, j)" class="fa-solid fa-minus alignment"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </app-card>
+                </div>
+                <div class="col-md-1">
+                  <i (click)="removeSet(i, 'subEntity')" class="fa-solid fa-minus alignment"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </app-card>
+        <button type="submit" class="btn btn-primary"
+        *ngIf="(role === 'Admin' || (role === 'User' && permissions.editPublic === 1))"
+        >{{ 'Submit' | translate }}</button>
+      </form>
+    </app-card>
+  </div>
+</div>

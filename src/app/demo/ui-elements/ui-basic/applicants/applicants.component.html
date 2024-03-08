@@ -1,0 +1,258 @@
+<div class="row">
+  <app-card cardTitle="{{ 'Basic Table' | translate }}" [options]="false">
+    <div class="header">
+      <button type="button" class="btn btn-primary"  
+      *ngIf="(role === 'Admin' || (role === 'User' && permissions.addApplicants === 1))"
+      (click)="addApplicants()">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Add' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" (click)="exportApplicantsData()">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Print' | translate }}
+      </button>
+      <button type="button" (click)="exportApplicantsHeaders()" class="btn btn-primary">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Export Template' | translate }}
+      </button>
+      <template >
+
+      </template>
+      <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls">
+      <button type="button" (click)="importApplicants()" class="btn btn-primary">
+        <i class="feather icon-upload"></i>
+        {{ 'Import Data' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" 
+      *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))"
+      (click)="generateResults()">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Generate Results' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" 
+      *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))"
+      (click)="revertResults()">
+        <i class="feather icon-thumbs-up"></i>
+        {{ 'Cancel Results' | translate }}
+      </button>
+      <div class="circles">
+        <div class="d-flex">
+          <div class="red"></div>
+          <span>{{ 'Not Sorted' | translate }}</span>
+        </div>
+        <div class="d-flex" style="margin-left: 20px;">
+          <div class="green"></div>
+          <span>{{ 'Sorted' | translate }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <br>
+    <hr />
+    <div class="card">
+      <ngb-accordion [closeOthers]="true" activeIds="static-2">
+        <ngb-panel id="static-1">
+          <ng-template ngbPanelTitle>
+            <a href="javascript:">{{ 'Search Filter' | translate }}</a>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <app-card cardTitle="{{ 'Basic Component' | translate }}" [options]="false">
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                     
+                      <div class="col-md-6 form-group" *ngFor="let field of searchFields">
+                        <label for="{{ field.name }}">{{ field.label | titlecase | translate }}</label>
+                        <select class="form-control" [id]="field.name" *ngIf="searchForm.get(field.name)" [formControlName]="field.name">
+                            <option value="" selected>{{ 'Select' | translate }} {{ field.label }}</option>
+                            <option *ngFor="let option of field.options" [value]="option.value">{{ option.label | translate }}</option>
+                        </select>
+                    </div>
+                    
+                     
+                      <!-- String Fields -->
+                      <div class="col-md-6 form-group" *ngFor="let field of stringFields">
+                        <ng-container *ngIf="field.name !== 'certificate'; else certificateFields">
+                          <!-- For fields other than 'certificate', display a regular input field -->
+                          <label for="{{ field.name }}">{{ field.label | titlecase | translate }}</label>
+                          <input type="text" class="form-control" [id]="field.name"
+                            [placeholder]="field.label | titlecase | translate" formControlName="{{ field.name }}" />
+                        </ng-container>
+
+                        <!-- Template for the 'certificate' field -->
+                        <ng-template #certificateFields>
+                          <label for="certificate">{{ field.label | titlecase | translate }}</label>
+                          <div formGroupName="certificate">
+                            <!-- Display two input fields for 'general' and 'precise' values -->
+                            <div class="row">
+                              <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="certificateGeneral"
+                                  placeholder="General Certificate" formControlName="general" />
+                              </div>
+                              <div class="col-md-6 form-group">
+                                <input type="text" class="form-control" id="certificatePrecise"
+                                  placeholder="Precise Certificate" formControlName="precise" />
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <!-- Numeric Fields -->
+                      <div class="col-md-6 form-group" *ngFor="let field of numericFields" [formGroupName]="field.name">
+                        <label for="{{ field.name }}">{{ field.label | translate }}</label>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <select class="form-control" [id]="field.name + '-condition'"
+                              [formControlName]="'condition'">
+                              <option *ngFor="let condition of field.conditions" [value]="condition.value">{{
+                                condition.label | translate }}</option>
+                            </select>
+                          </div>
+                          <ng-container *ngIf="searchForm.get(field.name)?.get('condition')">
+                            <ng-container *ngIf="searchForm.get(field.name)?.get('condition')?.value === 'range'">
+                              <div class="col-md-4">
+                                <input type="number" class="form-control" [id]="'from-' + field.name"
+                                  placeholder="{{ 'From' | translate }}" formControlName="min" />
+                              </div>
+                              <div class="col-md-4">
+                                <input type="number" class="form-control" [id]="'to-' + field.name"
+                                  placeholder="{{ 'To' | translate }}" formControlName="max" />
+                              </div>
+                            </ng-container>
+                            <ng-container *ngIf="searchForm.get(field.name)?.get('condition')?.value !== 'range'">
+                              <div class="col-md-8">
+                                <input type="number" class="form-control" [id]="field.name"
+                                  [placeholder]="field.label | translate" formControlName="value" />
+                              </div>
+                            </ng-container>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="col-md-12 button-style">
+                        <button type="submit" class="btn btn-primary">{{ 'Submit' | translate }}</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </app-card>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+    <br>
+    <div class="table-responsive">
+      <table class="table">
+
+        <thead style="text-align: center;">
+          
+          <tr>
+            <th>
+              <!-- Add a checkbox for selecting all values -->
+              <input type="checkbox" (change)="selectAll($event)">
+              <i class="fas fa-trash-alt icon-position" (click)="deleteSelected()"></i>
+            </th>
+            <ng-container *ngFor="let column of columnData">
+              <ng-container *ngIf="column.label !== 'Delete'">
+                  <!-- Render other table headers normally -->
+                  <th 
+                      (click)="column.sortable ? sortColumn(column.name) : ''" 
+                      style="cursor: pointer; position: relative;">
+                      {{ column.label | translate }}
+                      <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                              *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
+                      <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                              *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
+                  </th>
+              </ng-container>
+              <ng-container *ngIf="column.label === 'Delete'">
+                  <th *ngIf="(role === 'Admin' || (role === 'User' && permissions.deleteApplicants === 1))">
+                      {{ column.label | translate }}
+                      <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                              *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
+                      <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
+                              *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
+                  </th>
+              </ng-container>
+          </ng-container>
+          
+          
+        
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let applicant of paginateData(); let i = index">
+            <!-- <th scope="row">{{ i+1 }}</th> -->
+
+            <td>
+              <input type="checkbox" [checked]="isSelected(applicant.id)" (change)="toggleSelection($event, applicant.id)">
+            </td>
+            <th scope="row">{{ applicant.id }}</th>
+            <td>
+              <div class="circles padding-top">
+                <div [ngClass]="{'green': applicant?.accepted === 1, 'red': applicant.accepted === 0}"></div>
+              </div>
+            </td>
+            <td>
+              <i class="fas fa-info-circle hover" (click)="showDetails(applicant.id)"></i>
+            </td>
+            <td *ngIf="this.role === 'Admin' || this.role === 'User' && this.permissions.deleteApplicants === 1">
+              <i class="fas fa-trash-alt hover" (click)="deleteRecord(applicant.id)"></i>
+            </td>
+            <td>{{ (applicant.status ? "Audited" : "Not Audited") | translate }}</td>
+            <td>{{ applicant.fullName }}</td>
+            <td>{{ getCategoryString(applicant.category) | translate}}</td>
+            <td>{{ applicant.certificate.general }} - {{ applicant.certificate.precise }}</td>
+            <td>{{ applicant.governorate }}</td>
+            <td>{{ applicant.graduationRate }}</td>
+            <!-- <td>{{ applicant.exam_result }}</td> -->
+            <td>{{ applicant.specialization_data.length }}</td>
+            <td>{{ applicant.destination }}</td>
+            <td>{{ applicant.destination }} <span *ngIf="applicant.sub_entity">-</span> {{ applicant.sub_entity }}</td>
+            <td>{{ applicant.cardNumber }}</td>
+            <td>{{ getDesireOrderString(applicant.desireOrder) | translate}}</td>
+            <td>{{ applicant.recordEntry }}</td>
+            <td>{{ applicant.entryDate }}</td>
+            <td>{{ applicant.lastModifier }}</td>
+            <td>{{ applicant.modificationDate }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-controls d-flex justify-content-between">
+      <div class="d-flex row">
+        <div class="col-md-auto mt-auto mb-auto">
+          <span style="width: 100%;" class="">Items Per Page:</span>
+        </div>
+        <div class="col-md-auto">
+          <select class="form-control" [(ngModel)]="pageSizeSelected" (change)="changePageSize(pageSizeSelected)">
+            <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+        </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-auto mt-auto mb-auto">
+          <span class="mt-auto mb-auto">{{ getRange() }} of {{ applicants.length }}</span> 
+        </div>
+        <div class="col-md-auto mt-auto mb-auto">
+          <button class="border-0 fs-4 bg-transparent" (click)="firstPage()" [disabled]="currentPage === 1">
+            <i class="fa fa-angle-double-left"></i>
+        </button>
+        <button class="border-0 fs-4 bg-transparent" (click)="previousPage()" [disabled]="currentPage === 1">
+            <i class="fa fa-angle-left bg-transparent"></i>
+        </button>
+        <button class="border-0 fs-4 bg-transparent" (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+            <i class="fa fa-angle-right"></i>
+        </button>
+        <button class="border-0 fs-4 bg-transparent" (click)="lastPage()" [disabled]="currentPage === totalPages - 1">
+            <i class="fa fa-angle-double-right"></i>
+        </button>
+        </div>
+
+      </div>
+
+  </div>
+  </app-card>
+</div>

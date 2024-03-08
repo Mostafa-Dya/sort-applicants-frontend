@@ -1,0 +1,102 @@
+<div class="row" style="width: 100%;">
+    <div class="col-sm-12">
+      <app-card cardTitle="{{this.title|translate}}" [options]="false">
+        <form [formGroup]="mainForm" (submit)="submit()" action="javascript:">
+          <div class="form-group col-md-12">
+            <label for="card_number">
+                {{'Name'|translate}}<span> *</span>
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="card_number"
+              placeholder="{{'governorate'|translate}}"
+              formControlName="governorate"
+            />
+          </div>
+          <br>
+          <app-card cardTitle="{{'Add Region'|translate}}" [options]="false">
+            <div class="col-md-1">
+                <i (click)="addSets('region')" class="fa-solid fa-plus"></i>
+              </div>
+            <div formArrayName="regionData">
+              <div *ngFor="let set of regionSets.controls; let i = index" [formGroupName]="i">
+                <div class="oneForm row">
+                  <div class="form-group col-md-11">
+                    <label for="{{'Region'|translate}}"></label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="region"
+                      placeholder="{{'Region'|translate}}"
+                      formControlName="region"
+                    />
+                  </div>
+                  <div class="col-md-1">
+                    <i (click)="removeSet(i,'region')" class="fa-solid fa-minus alignment"></i>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </app-card>
+          <app-card cardTitle="{{'Add Township'|translate}}" [options]="false">
+            <div class="col-md-1">
+                <i (click)="addSets('township')" class="fa-solid fa-plus"></i>
+              </div>
+            <div formArrayName="townshipData">
+              <div *ngFor="let set of townshipSets.controls; let i = index" [formGroupName]="i">
+                <div class="oneForm row">
+                  <div class="form-group col-md-11">
+                    <label for="{{'Township'|translate}}"></label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="township"
+                      placeholder="{{'Township'|translate}}"
+                      formControlName="township"
+                    />
+                  </div>
+                  <div class="col-md-1">
+                    <i (click)="removeSet(i,'township')" class="fa-solid fa-minus alignment"></i>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </app-card>
+
+          <app-card cardTitle="{{'Add Village'|translate}}" [options]="false">
+            <div class="col-md-1">
+                <i (click)="addSets('village')" class="fa-solid fa-plus"></i>
+              </div>
+            <div formArrayName="villageData">
+              <div *ngFor="let set of villageSets.controls; let i = index" [formGroupName]="i">
+                <div class="oneForm row">
+                  <div class="form-group col-md-11">
+                    <label for="{{'Village'|translate}}"></label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="village"
+                      placeholder="{{'Village'|translate}}"
+                      formControlName="village"
+                    />
+                  </div>
+                  <div class="col-md-1">
+                    <i (click)="removeSet(i,'village')" class="fa-solid fa-minus alignment"></i>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </app-card>
+          <button type="submit" class="btn btn-primary"
+          *ngIf="(role === 'Admin' || (role === 'User' && permissions.editGovernorate === 1 && this.data))"
+          >{{ 'Submit' | translate }}</button>
+
+        </form>
+      </app-card>
+    </div>
+  </div>
+  

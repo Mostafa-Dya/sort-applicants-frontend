@@ -1,0 +1,82 @@
+.error-label {
+    color: red;
+  }
+  
+
+  
+
+  .circles{
+    display: flex;
+    .red{
+      background-color: red;
+      width: 15px;
+      height: 15px;
+      border-radius: 14px;
+    }
+    span{
+      margin-left: 1rem;
+      color: black;
+    }
+  }
+
+  
+  .circles{
+    display: flex;
+    .green{
+      background-color: green;
+      width: 15px;
+      height: 15px;
+      border-radius: 14px;
+    }
+    span{
+      margin-left: 1rem;
+      color: black;
+    }
+  }
+
+
+  .header{
+    display: flex;
+    .circles{
+      margin-left: 5rem;
+    }
+  }
+
+  .padding-top{
+    padding-top: 0.1rem;
+  }
+
+  .hover{
+    cursor: pointer;
+  }
+
+  th {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  th:hover mat-icon {
+    opacity: 1;
+  }
+  
+  mat-icon {
+    font-size: 16px;
+    vertical-align: middle;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  mat-icon.sorted {
+    opacity: 1;
+  }
+  
+  .padding-top{
+    padding-top: 0.1rem;
+  }
+
+  .icon-position{
+    position: relative;
+    left: 15px;
+    bottom: 2px;
+  }

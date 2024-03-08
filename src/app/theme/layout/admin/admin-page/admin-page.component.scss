@@ -1,0 +1,29 @@
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  ::ng-deep.mdc-switch:enabled .mdc-switch__track::after{
+    background:blue!important
+  }
+
+  ::ng-deep.mat-mdc-slide-toggle.mat-accent{
+    --mdc-switch-selected-handle-color:blue!important;
+    --mdc-switch-selected-focus-state-layer-color: blue; 
+    --mdc-switch-selected-handle-color: blue; 
+    --mdc-switch-selected-hover-state-layer-color: blue;
+    --mdc-switch-selected-pressed-state-layer-color: blue; 
+    --mdc-switch-selected-focus-handle-color: blue; 
+    --mdc-switch-selected-hover-handle-color: #3f4d67; 
+    --mdc-switch-selected-hover-track-color: blue; 
+    --mdc-switch-selected-pressed-track-color: blue; 
+     --mdc-switch-selected-track-color: blue;
+     --mdc-switch-selected-focus-track-color:#3f4d67;
+     --mdc-switch-selected-pressed-handle-color:#3f4d67;
+  }
+

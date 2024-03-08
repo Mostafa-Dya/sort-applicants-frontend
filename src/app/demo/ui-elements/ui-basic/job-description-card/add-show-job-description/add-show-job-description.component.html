@@ -1,0 +1,247 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="{{'Job Description'|translate}}" [options]="false">
+      <div class="row">
+        <div class="col-md-12">
+          <form [formGroup]="mainForm" (submit)="submit()" action="javascript:">
+            <div class="row">
+              <div class="form-group col-md-12" *ngIf="this.jobID">
+                <label for="statusCheckbox" class="form-label">{{'Status'|translate}}</label>
+                <div class="form-check">
+                  <input type="checkbox" id="statusCheckbox" class="form-check-input" formControlName="status">
+                </div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="governorate" class="form-label"
+                  [class.error-label]="mainForm.get('governorate').invalid && mainForm.get('governorate').touched">
+                  {{'governorate'|translate}}<span> *</span>
+                </label>
+                <select id="governorate" class="form-select" aria-label="select example" required
+                  formControlName="governorate">
+                  <option value="">أختر محافظة</option>
+                  <option *ngFor="let governorate of governorateNames" [value]="governorate">{{ governorate }}</option>
+                </select>
+                <span *ngIf="mainForm.get('governorate').invalid && mainForm.get('governorate').touched">
+                  {{'Governorate is required'|translate}}
+                </span>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="category" class="form-label"
+                  [class.error-label]="mainForm.get('category').invalid && mainForm.get('category').touched">
+                  {{'Category'|translate}}<span> *</span>
+                </label>
+                <select id="category" class="form-select" aria-label="select example" required
+                  formControlName="category">
+                  <option value="">{{'Select Category'|translate}}</option>
+                  <option value="1">{{'Category 1'|translate}}</option>
+                  <option value="2">{{'Category 2'|translate}}</option>
+                  <option value="3">{{'Category 3'|translate}}</option>
+                  <option value="4">{{'Category 4'|translate}}</option>
+                  <option value="5">{{'Category 5'|translate}}</option>
+
+                </select>
+                <span *ngIf="mainForm.get('category').invalid && mainForm.get('category').touched">
+                  {{'Category is required'|translate}}
+                </span>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="public-entity" class="form-label"
+                  [class.error-label]="mainForm.get('public_entity').invalid && mainForm.get('public_entity').touched">
+                  {{'Public Entity'|translate}} <span> *</span>
+                </label>
+                <select id="public-entity" class="form-select" aria-label="select example" required
+                  formControlName="public_entity" (change)="onPublicEntityChange()">
+                  <option value="">أختر جهة عامة</option>
+                  <option *ngFor="let entity of publicEntities" [value]="entity.name">{{ entity.name }}</option>
+                </select>
+                <span *ngIf="mainForm.get('public_entity').invalid && mainForm.get('public_entity').touched">
+                  {{'Public Entity Required'|translate}}
+                </span>
+              </div>
+
+              <div class="form-group col-md-12">
+                <label for="sub-entity" class="form-label">
+                  {{'Sub Entity'|translate}}
+                </label>
+                <select id="sub-entity" class="form-select" required formControlName="sub_entity">
+                  <option value="">{{'Select Sub Entity'|translate}}
+                  </option>
+                  <option *ngFor="let subEntity of subEntities" [value]="subEntity.name">{{ subEntity.name |translate}}
+                  </option>
+                </select>
+
+              </div>
+
+              <div class="form-group col-md-12">
+                <label for="affiliate-entity" class="form-label">
+                  {{'Affiliate Entity'|translate}} 
+                </label>
+                <select id="affiliate-entity" class="form-select" required formControlName="affiliate_entity">
+                  <option value="">{{'Select Affiliate Entity'|translate}}
+                  </option>
+                  <option *ngFor="let subEntity of subEntities" [value]="subEntity.name">{{ subEntity.name |translate}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="sub-affiliate-entity" class="form-label">
+                  {{'Sub Affiliate Entity'|translate}}
+                </label>
+                <select id="sub-affiliate-entity" class="form-select" required formControlName="sub_affiliate_entity">
+                  <option value="">{{'Select Sub Affiliate Entity'|translate}}
+                  </option>
+                  <option *ngFor="let subEntity of subEntities" [value]="subEntity.name">{{ subEntity.name |translate}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-12">
+                <label for="gender-needed" class="form-label">
+                  {{'Specified Gender Needed'|translate}} 
+                </label>
+                <select id="sub-affiliate-entity" class="form-select" formControlName="gender_needed">
+                  <option value="">{{'Select Gender'|translate}}
+                  </option>
+                  <option value="0">{{'Male'|translate}}
+                  </option>
+                  <option value="1">{{'Female'|translate}}
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="card_number"
+                  [class.error-label]="mainForm.get('card_number').invalid && mainForm.get('card_number').touched">
+                  {{'Job Description Number'|translate}} <span> *</span>
+                </label>
+                <input type="number" class="form-control" id="card_number"
+                  placeholder="{{'Job Description Number'|translate}}" formControlName="card_number" />
+                <span *ngIf="mainForm.get('card_number').invalid && mainForm.get('card_number').touched">
+                  {{'Job Description Number Required'|translate}}
+                </span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="work_centers"
+                  [class.error-label]="mainForm.get('vacancies').invalid && mainForm.get('vacancies').touched">
+                  {{'Number of Work Centers'|translate}} <span> *</span>
+                </label>
+                <input type="number" class="form-control" id="work_centers"
+                  placeholder="{{'Number of Work Centers'|translate}}" formControlName="vacancies" />
+                <span *ngIf="mainForm.get('vacancies').invalid && mainForm.get('vacancies').touched">
+                  {{'Number of Work Centers is required'|translate}}
+                </span>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="job_title"
+                  [class.error-label]="mainForm.get('job_title').invalid && mainForm.get('job_title').touched">
+                  {{'Job Title'|translate}}<span> *</span>
+                </label>
+                <input type="text" class="form-control" id="job_title" placeholder="{{'Job Title'|translate}}"
+                  formControlName="job_title" />
+                <span *ngIf="mainForm.get('job_title').invalid && mainForm.get('job_title').touched">
+                  {{'Job Title is required'|translate}}
+                </span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="assignees">{{'Separated Count'|translate}}</label>
+                <input type="number" class="form-control" id="assignees" placeholder="{{'Separated Count'|translate}}"
+                  formControlName="assignees" />
+              </div>
+              <div class="form-group col-md-12">
+                <label for="notes">{{'Notes'|translate}}</label>
+                <input type="text" class="form-control" id="notes" placeholder="{{'Notes'|translate}}"
+                  formControlName="notes" />
+              </div>
+
+
+              <app-card cardTitle="بيانات التهجير" [options]="false">
+                <!-- Add this code where you want to display the dropdown for 'General' -->
+                <!-- <div class="form-group col-md-12">
+                  <label for="general">{{ 'General' | translate }}</label>
+                  <select class="form-control" id="general" formControlName="general" (change)="onGeneralChange()">
+                    <option *ngFor="let cert of certificate" [value]="cert.name">{{ cert.name }}</option>
+                  </select>
+                </div> -->
+                
+                <!-- Add this code where you want to display the dropdown for 'Precise' -->
+                <!-- <div class="form-group col-md-12">
+                  <label for="precise">{{ 'Precise' | translate }}</label>
+                  <select class="form-control" id="precise" formControlName="precise">
+                    <option *ngFor="let cert of preciseCertificates" [value]="cert.name">{{ cert.name }}</option>
+                  </select>
+                </div> -->
+                
+
+                <div *ngFor="let set of specializationSets.controls; let i = index" formArrayName="specializationData"
+                  style="margin-top: 10%;">
+                  <div class="oneForm row" [formGroupName]="i">
+                    <div class="form-group col-md-2">
+                      <label for="degree{{i}}" class="form-label">
+                        {{'Degree type'|translate}}
+                      </label>
+                      <select id="degree{{i}}" class="form-select" 
+                        formControlName="degree" (change)="onDegreeChange(i)">
+                        <option value="">{{'Select a Degree'|translate}}</option>
+                        <option value="Ph.D">{{'Ph.D'|translate}}</option>
+                        <option value="Master">{{'Master'|translate}}</option>
+                        <option value="Bachelor">{{'Bachelor'|translate}}</option>
+                        <option value="Diploma">{{'Diploma'|translate}}</option>
+                        <option value="Intermediate-institute">{{'Intermediate institute'|translate}}</option>
+                        <option value="Higher-Institute">{{'Higher Institute'|translate}}</option>
+                        <option value="High-school">{{'High school'|translate}}</option>
+                        <option value="Basic-education">{{'Basic education'|translate}}</option>
+                        <option value="craftsman">{{'Craftsman'|translate}}</option>
+                        <option value="board">{{'Board'|translate}}</option>
+
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="specializationNeeded{{i}}" class="form-label">{{'Specialization Needed'|translate}}</label>
+                      <select id="specializationNeeded{{i}}" class="form-select" aria-label="select example" required
+                        formControlName="specializationNeeded" (change)="onSpecializationChange(i)">
+                        <option value="">{{'Select specialization'|translate}}</option>
+                        <!-- Use ngFor to dynamically populate options based on selected Degree -->
+                        <option *ngFor="let generalName of getGeneralNames(i)" [value]="generalName">
+                          {{ generalName }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="specializationNeededPrecise{{i}}" class="form-label">{{ 'Precise Specialization Needed' | translate }}</label>
+                      <select id="specializationNeededPrecise{{i}}" class="form-select" aria-label="select example" formControlName="specializationNeededPrecise">
+                        <option value="">{{ 'Select precise specialization' | translate }}</option>
+                        <option *ngFor="let preciseCert of preciseCertificates[i]" [value]="preciseCert.name">
+                          {{ preciseCert.name }}
+                        </option>
+                      </select>
+                    </div>
+                    
+                    
+                    <div class="col-md-1">
+                      <i (click)="removeSpecializationSet(i)" class="fa-solid fa-minus alignment"></i>
+                    </div>
+                    <div class="col-md-1">
+                      <i (click)="addSpecializationSet()" class="fa-solid fa-plus alignment"></i>
+                    </div>
+                  </div>
+                </div>
+
+              </app-card>
+
+
+            </div>
+            <div class="col-md-12 button-style" 
+            *ngIf="(role === 'Admin' || (role === 'User' && permissions.editJobDescription === 1 && this.jobID))">
+              <button type="submit" class="btn btn-primary">{{ 'Submit' | translate }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>
