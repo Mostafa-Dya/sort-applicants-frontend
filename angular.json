@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "datta-able-free-angular-admin-template": {
+    "sort-applicants": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "datta-able-free-angular-admin-template:build:production"
+              "browserTarget": "sort-applicants:build:production"
             },
             "development": {
-              "browserTarget": "datta-able-free-angular-admin-template:build:development"
+              "browserTarget": "sort-applicants:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "datta-able-free-angular-admin-template:build"
+            "browserTarget": "sort-applicants:build"
           }
         },
         "test": {

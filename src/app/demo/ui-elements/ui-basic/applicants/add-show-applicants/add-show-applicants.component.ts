@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
-import { HttpClient } from '@angular/common/http';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GovernorateService } from 'src/app/theme/shared/services/governorate-description.service';
 import { PublicEntitieService } from 'src/app/theme/shared/services/public-entitie.service';
@@ -12,13 +11,14 @@ import { ScientificCertificateService } from 'src/app/theme/shared/services/scie
 import { ApplicantsService } from 'src/app/theme/shared/services/applicants.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
+
 @Component({
   selector: 'app-add-show-applicants',
   templateUrl: './add-show-applicants.component.html',
   styleUrls: ['./add-show-applicants.component.scss'],
   standalone: true,
   imports: [SharedModule],
-  providers:[DatePipe]
+  providers: [DatePipe]
 })
 export default class AddShowApplicantsComponent implements OnInit {
   specializationSets: FormArray;
@@ -30,26 +30,25 @@ export default class AddShowApplicantsComponent implements OnInit {
   publicEntities: any[] = [];
   subEntities: any[] = [];
   publicEntityName: string[] = [];
-  allJobDescriptionData: any[]; 
+  allJobDescriptionData: any[] = [];
   allCertificates: any[] = [];
   applicantID;
   selectedCertificate: any;
-  role:string;
-  permissions:any;
+  role: string;
+  permissions: any;
+
   constructor(
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private governorateService: GovernorateService,
     private publicEntitieService: PublicEntitieService,
     private translationService: TranslationService,
-    private jobDescriptionService:JobDescriptionService,
-    private scientificCertificateService:ScientificCertificateService,
-    private applicantsService:ApplicantsService,
+    private jobDescriptionService: JobDescriptionService,
+    private scientificCertificateService: ScientificCertificateService,
+    private applicantsService: ApplicantsService,
     private route: ActivatedRoute,
-    private authService:AuthService
-  ) {
-    
-  }
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.governorateService.getGovernorateData().subscribe((res) => {
@@ -58,8 +57,7 @@ export default class AddShowApplicantsComponent implements OnInit {
 
     this.publicEntitieService.getPublicEntitieData().subscribe((res) => {
       this.originalPublicEntities = res.data;
-      this.publicEntityName = res.data.map((publicEntity)=>publicEntity.name);
-
+      this.publicEntityName = res.data.map((publicEntity) => publicEntity.name);
     });
 
     this.jobDescriptionService.jobDescriptionTableData().subscribe(
@@ -86,10 +84,10 @@ export default class AddShowApplicantsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.applicantID = params['id'];
       if (this.applicantID) {
-        // Fetch job details using the job id
-        this.applicantsService.getApplicantsByID(this.applicantID).subscribe(async (res) => {
-          // Populate your form with the fetched data
-          await this.setFormData(res);
+        console.log(this.applicantID)
+        this.applicantsService.getApplicantsByID(this.applicantID).subscribe((res) => {
+          console.log(res)
+          this.setFormData(res);
         });
       }
     });
@@ -97,14 +95,13 @@ export default class AddShowApplicantsComponent implements OnInit {
     this.permissions = this.authService.permissionsService();
     this.initForm();
   }
-  
 
   async setFormData(data: any) {
     const parsedCertificate = JSON.parse(data.certificate);
     this.selectedCertificate = this.allCertificates.find(
       cert => cert.general.name === parsedCertificate.general && cert.precise.name === parsedCertificate.precise
     );
-
+  
     // Implement logic to set the form values based on the fetched data
     this.mainForm.patchValue({
       governorate: data.governorate,
@@ -127,7 +124,7 @@ export default class AddShowApplicantsComponent implements OnInit {
       desireOrder: data.desireOrder,
       desiredGovernorate: data.desiredGovernorate,
     });
-
+  
     // Patch certificate values to corresponding form fields
     if (parsedCertificate) {
       this.mainForm.patchValue({
@@ -135,12 +132,13 @@ export default class AddShowApplicantsComponent implements OnInit {
         exactSpecialization: parsedCertificate.precise
       });
     }
-
+  
     // Check if specializationData is not null or undefined
     if (data.specialization_data) {
       // Populate specializationData array
       this.specializationSets.clear();
       data.specialization_data.forEach((item) => {
+        console.log(item)
         const specializationGroup = this.fb.group({
           desire: item.desire,
           namedVal: item.namedVal,
@@ -153,30 +151,34 @@ export default class AddShowApplicantsComponent implements OnInit {
       // Populate specializationData array
       this.desireSets.clear();
       data.desire_data.forEach((item) => {
+        console.log(item)
         const desireGroup = this.fb.group({
-          governorateDesire: item.governorateDesire,
-          publicEntitySide: item.publicEntitySide,
-          cardNumberDesire: item.cardNumberDesire,
-          publicEntity: item.publicEntity,
-          numberOfCenters: item.numberOfCenters,
-          jobTitle: item.jobTitle,
-          primarySpecialization: item.primarySpecialization,
-          specifiedSpecialization: item.specifiedSpecialization,
+            governorateDesire: [item.governorateDesire, Validators.required],
+            publicEntitySide: [item.publicEntitySide, Validators.required],
+            cardNumberDesire: [item.cardNumberDesire, Validators.required],
+            publicEntity: item.publicEntity,
+            numberOfCenters: item.numberOfCenters,
+            jobTitle: item.jobTitle,
+            specialization_needed: this.fb.array([]) // You may need to initialize this array depending on your use case
         });
+    
+        // Check if specialization_needed is not null before accessing its value
+        if (item.specialization_needed) {
+            this.handleDesireGroupChanges(desireGroup); // Call the function to fetch additional values
+        }
+    
         this.desireSets.push(desireGroup);
         this.handleDesireGroupChanges(desireGroup); // Call the function to fetch additional values
-
-      });
+    });
     }
-}
-
-
+  }
   
+
+
   initForm() {
     this.mainForm = this.fb.group({
       governorate: ['', Validators.required],
       category: ['', Validators.required],
-      // series: [''],
       fullName: ['', Validators.required],
       motherName: ['', Validators.required],
       idNumber: ['', Validators.required],
@@ -192,13 +194,12 @@ export default class AddShowApplicantsComponent implements OnInit {
       named: [{ value: '', disabled: true }],
       cardNumber: [{ value: '', disabled: true }],
       desireOrder: [{ value: '', disabled: true }],
-      desiredGovernorate:[''],
-      desireData:this.fb.array([]),
+      desiredGovernorate: [''],
+      desireData: this.fb.array([]),
       status: [false],
       specializationData: this.fb.array([]),
     });
 
-    
     this.desireSets = this.mainForm.get('desireData') as FormArray;
     this.specializationSets = this.mainForm.get('specializationData') as FormArray;
     this.addSpecializationSet();
@@ -221,37 +222,37 @@ export default class AddShowApplicantsComponent implements OnInit {
       governorateDesire: ['', Validators.required],
       publicEntitySide: ['', Validators.required],
       cardNumberDesire: ['', Validators.required],
-      publicEntity: [''],
-      numberOfCenters: [''],
-      specialization_needed: this.fb.array([]),  
-      jobTitle: [''],
+      publicEntity: [''], // Include publicEntity in the form group
+      numberOfCenters: [''], // Include numberOfCenters in the form group
+      jobTitle: [''], // Include jobTitle in the form group
+      specialization_needed: this.fb.array([]),
       primarySpecialization: [''],
       specifiedSpecialization: ['']
     });
     if (this.desireSets.length < 3) {
       this.desireSets.push(desireGroup);
       this.handleDesireGroupChanges(desireGroup);
-
-      desireGroup.get('cardNumberDesire').valueChanges.subscribe((cardNumber: string) => {
+  
+      desireGroup.get('cardNumberDesire').valueChanges.subscribe(() => {
         this.handleDesireGroupChanges(desireGroup);
       });
-
-      
+  
       desireGroup.get('governorateDesire').valueChanges.subscribe(() => {
         this.handleDesireGroupChanges(desireGroup);
       });
-      
+  
       desireGroup.get('publicEntitySide').valueChanges.subscribe(() => {
         this.handleDesireGroupChanges(desireGroup);
       });
     }
   }
   
-  
+
   handleDesireGroupChanges(desireGroup: FormGroup) {
     const cardNumberDesire = desireGroup.get('cardNumberDesire').value;
     const governorateDesire = desireGroup.get('governorateDesire').value;
     const publicEntitySide = desireGroup.get('publicEntitySide').value;
+  
     const matchingJobDescription = this.allJobDescriptionData?.find((jobDescription) => {
       let desiredCardNumber = parseInt(cardNumberDesire);
       return (
@@ -260,10 +261,9 @@ export default class AddShowApplicantsComponent implements OnInit {
         jobDescription.public_entity === publicEntitySide
       );
     });
-
   
     if (matchingJobDescription) {
-      // Card number exists, patch the values
+      console.log(matchingJobDescription.public_entity)
       const workCenters = matchingJobDescription.vacancies - matchingJobDescription.assignees;
       desireGroup.patchValue({
         publicEntity: matchingJobDescription.public_entity,
@@ -273,7 +273,6 @@ export default class AddShowApplicantsComponent implements OnInit {
         specifiedSpecialization: matchingJobDescription.specialization_needed.map(item => item.specialization_needed_precise),
       });
   
-      // Patch the specialization_needed array
       const specializationNeededArray = desireGroup.get('specialization_needed') as FormArray;
       specializationNeededArray.clear();
       matchingJobDescription.specialization_needed.forEach(spec => {
@@ -284,24 +283,23 @@ export default class AddShowApplicantsComponent implements OnInit {
         specializationNeededArray.push(specializationGroup);
       });
     } else {
-      // Card number does not exist, reset the values or display a message
       desireGroup.patchValue({
         publicEntity: '',
         numberOfCenters: '',
-        specialization_needed: [],  // Reset specialization_needed array
-        jobTitle: '',
-        primarySpecialization: '',
-        specifiedSpecialization: ''
+        specialization_needed: [],
+        jobTitle: '', // Patch jobTitle
+        primarySpecialization: '', // Patch primarySpecialization
+        specifiedSpecialization: '' // Patch specifiedSpecialization
       });
     }
   }
+  
+
   removeDesireSet(index: number) {
     if (this.desireSets.length > 1) {
       this.desireSets.removeAt(index);
     }
   }
-
-
 
   removeSpecializationSet(index: number) {
     if (this.specializationSets.length > 1) {
@@ -317,26 +315,26 @@ export default class AddShowApplicantsComponent implements OnInit {
     const lastModifier = localStorage.getItem('username');
     const date = new Date();
     const formattedModificationDate = this.datePipe.transform(date, 'yyyy/MM/dd');
-  
+    
     if (this.mainForm.valid) {
+      console.log(12)
       const formData = this.mainForm.getRawValue();
-  
-      // Conditionally include recordEntry and entryDate based on whether it's an update or create
+
       if (!this.applicantID) {
         formData.recordEntry = lastModifier;
         formData.entryDate = formattedModificationDate;
       }
-  
+
       formData.lastModifier = lastModifier;
       formData.modificationDate = formattedModificationDate;
-  
+
       if (formData.certificate) {
         formData.certificate = {
           general: formData.certificate.general.name,
           precise: formData.certificate.precise.name,
         };
       }
-  
+
       const specializationData = this.specializationSets.controls.map((control) => {
         return {
           desire: control.get('desire').value,
@@ -344,8 +342,9 @@ export default class AddShowApplicantsComponent implements OnInit {
           cardNumberVal: control.get('cardNumberVal').value,
         };
       });
-  
+
       const desireData = this.desireSets.controls.map((control) => {
+        console.log(control)
         return {
           governorateDesire: control.get('governorateDesire').value,
           publicEntitySide: control.get('publicEntitySide').value,
@@ -353,41 +352,30 @@ export default class AddShowApplicantsComponent implements OnInit {
           publicEntity: control.get('publicEntity').value,
           numberOfCenters: control.get('numberOfCenters').value,
           jobTitle: control.get('jobTitle').value,
-          primarySpecialization: control.get('primarySpecialization').value,
-          specifiedSpecialization: control.get('specifiedSpecialization').value,
         };
       });
-  
+
       formData.specializationData = specializationData;
       formData.desireData = desireData;
-  
+
       if (this.applicantID) {
         formData.status = this.mainForm.get('status').value;
 
-        // You are updating an existing record, send update API request
         this.applicantsService.updateApplicants(this.applicantID, formData)
           .pipe(
-            finalize(() => {
-              // Any code you want to run after the API call (e.g., loading spinner, etc.)
-            })
+            finalize(() => {})
           )
           .subscribe(
-            (response) => {
-            },
-            (error) => {
-            }
+            (response) => {},
+            (error) => {}
           );
       } else {
-        // You are creating a new record, send create API request
         this.applicantsService.createApplicants(formData)
           .pipe(
-            finalize(() => {
-              // Any code you want to run after the API call (e.g., loading spinner, etc.)
-            })
+            finalize(() => {})
           )
           .subscribe(
-            (response) => {
-            },
+            (response) => {},
             (error) => {
               console.error('Error creating applicant:', error);
             }
@@ -397,14 +385,9 @@ export default class AddShowApplicantsComponent implements OnInit {
       this.mainForm.markAllAsTouched();
     }
   }
-  
-  
-  
 
-  
   findMatchingJobDescription(formData: any) {
     const { cardNumberDesire, publicEntitySide, governorateDesire } = formData.desireData[0];
-    
     return this.allJobDescriptionData.find((jobDescription) => {
       return (
         jobDescription.card_number === cardNumberDesire &&

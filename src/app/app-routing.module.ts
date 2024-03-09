@@ -28,15 +28,15 @@ const routes: Routes = [
         path: 'users-permissions/:id',
         loadComponent: () => import('./theme/layout/admin/admin-page/users-permissions/users-permissions.component'),
       },
-      {
-        path: 'sort-applicants',
-        loadComponent: () =>
-          import('../../src/app/demo/ui-elements/ui-basic/applicants-job-sorting/applicants-job-sorting.component'),
-      },
+      // {
+      //   path: 'sort-applicants',
+      //   loadComponent: () =>
+      //     import('../../src/app/demo/ui-elements/ui-basic/applicants-job-sorting/applicants-job-sorting.component'),
+      // },
       {
         path: 'basic',
         loadChildren: () =>
-          import('./demo/ui-elements/ui-basic/ui-basic.module').then(
+          import('./demo/ui-elements/ui-basic/sort-applicants.module').then(
             (m) => m.UiBasicModule,
           ),
       },

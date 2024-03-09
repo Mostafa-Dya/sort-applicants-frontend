@@ -27,18 +27,20 @@
         <i class="feather icon-thumbs-up"></i>
         {{ 'Cancel Results' | translate }}
       </button>
-      <div *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))" class="align-items-center">
-        <label class="btn btn-primary btn-file">
-            <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls" style="display: none;">
-            <i class="feather icon-upload"></i> {{ 'Choose File' | translate }}
-            <div>
-              <span *ngIf="selectedFileName" class="ml-2">{{ selectedFileName }}</span>
-            </div>
-        </label>
-        <button type="button" (click)="importApplicants()" class="btn btn-primary">
-            <i class="feather icon-download"></i> {{ 'Import Data' | translate }}
-        </button>
-    </div>
+
+    <div *ngIf="(role === 'Admin' || (role === 'User' && permissions.addApplicants === 1))" class="d-flex align-items-center">
+      <label class="btn btn-primary btn-file">
+          <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls" style="display: none;">
+          <i class="feather icon-upload"></i> {{ 'Choose File' | translate }}
+          <div>
+            <span *ngIf="selectedFileName" class="ml-2">{{ selectedFileName }}</span>
+          </div>
+
+      </label>
+      <button type="button" (click)="importApplicants()" class="btn btn-success ml-2">
+          <i class="feather icon-download"></i> {{ 'Import Data' | translate }}
+      </button>
+  </div>
       <div class="circles">
         <div class="d-flex">
           <div class="red"></div>

@@ -292,8 +292,7 @@
                                                     <tr style="text-align: center;">
                                                         <th>
                                                             <div>
-                                                                <i (click)="addDesireSet()"
-                                                                    class="fa-solid fa-plus"></i>
+                                                                <i (click)="addDesireSet()" class="fa-solid fa-plus"></i>
                                                             </div>
                                                         </th>
                                                         <th>{{ 'Governorate' | translate }}</th>
@@ -309,70 +308,54 @@
                                                 </thead>
                                                 <!-- Table Body -->
                                                 <tbody formArrayName="desireData" style="text-align: center;">
-                                                    <tr *ngFor="let set of desireSets.controls; let i = index"
-                                                        [formGroupName]="i">
+                                                    <tr *ngFor="let set of desireSets.controls; let i = index" [formGroupName]="i">
                                                         <td>
                                                             <div class="">
-                                                                <i (click)="removeDesireSet(i)"
-                                                                    class="fa-solid fa-minus"></i>
+                                                                <i (click)="removeDesireSet(i)" class="fa-solid fa-minus"></i>
                                                             </div>
                                                         </td>
                                                         <td style="width: 10%!important;">
                                                             <div class="form-group">
-                                                                <select id="governorateDesire{{i}}" class="form-select"
-                                                                    aria-label="select example" required
-                                                                    formControlName="governorateDesire">
-                                                                    <option value="">{{ 'Governorate' | translate }}
-                                                                    </option>
-                                                                    <option *ngFor="let governorate of governorateNames"
-                                                                        [value]="governorate">
+                                                                <select id="governorateDesire{{i}}" class="form-select" aria-label="select example"
+                                                                    required formControlName="governorateDesire">
+                                                                    <option value="">{{ 'Governorate' | translate }}</option>
+                                                                    <option *ngFor="let governorate of governorateNames" [value]="governorate">
                                                                         {{ governorate }}
                                                                     </option>
                                                                 </select>
-                                                                <span
-                                                                    *ngIf="mainForm.get('desireData.' + i + '.governorateDesire').invalid && mainForm.get('desireData.' + i + '.governorateDesire').touched">
+                                                                <span *ngIf="mainForm.get('desireData.' + i + '.governorateDesire').invalid && mainForm.get('desireData.' + i + '.governorateDesire').touched">
                                                                     {{ 'Governorate is required' | translate }}
                                                                 </span>
                                                             </div>
                                                         </td>
                                                         <td style="width: 15%!important;">
                                                             <div class="form-group">
-                                                                <select id="publicEntitySide{{i}}" class="form-select"
-                                                                    aria-label="select example" required
-                                                                    formControlName="publicEntitySide">
-                                                                    <option value="">{{ 'Select Main Entity' |
-                                                                        translate }}</option>
-                                                                    <option
-                                                                        *ngFor="let publicEntity of publicEntityName"
-                                                                        [value]="publicEntity">
+                                                                <select id="publicEntitySide{{i}}" class="form-select" aria-label="select example"
+                                                                    required formControlName="publicEntitySide">
+                                                                    <option value="">{{ 'Select Main Entity' | translate }}</option>
+                                                                    <option *ngFor="let publicEntity of publicEntityName" [value]="publicEntity">
                                                                         {{ publicEntity }}
                                                                     </option>
                                                                 </select>
-                                                                <span
-                                                                    *ngIf="mainForm.get('desireData.' + i + '.publicEntitySide').invalid && mainForm.get('desireData.' + i + '.publicEntitySide').touched">
+                                                                <span *ngIf="mainForm.get('desireData.' + i + '.publicEntitySide').invalid && mainForm.get('desireData.' + i + '.publicEntitySide').touched">
                                                                     {{ 'Main Side is required' | translate }}
                                                                 </span>
                                                             </div>
                                                         </td>
                                                         <td style="width: 8%!important;">
                                                             <div class="form-group">
-                                                                <!-- Update formControlName to directly use 'cardNumberDesire' -->
-                                                                <input type="text" class="form-control"
-                                                                    id="cardNumberDesire{{i}}"
-                                                                    placeholder="{{ 'Card Number' | translate }}"
-                                                                    formControlName="cardNumberDesire" />
+                                                                <input type="text" class="form-control" id="cardNumberDesire{{i}}"
+                                                                    placeholder="{{ 'Card Number' | translate }}" formControlName="cardNumberDesire" />
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <span>{{ mainForm.get('desireData.' + i +
-                                                                    '.publicEntity')?.value }}</span>
+                                                                <span>{{ mainForm.get('desireData.' + i + '.publicEntity')?.value }}</span>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <span>{{ mainForm.get('desireData.' + i +
-                                                                    '.numberOfCenters')?.value }}</span>
+                                                                <span>{{ mainForm.get('desireData.' + i + '.numberOfCenters')?.value }}</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -385,15 +368,9 @@
                                                                 </ng-container>
                                                             </div>
                                                         </td>
-                                                        
-                                                        
-
-
-
                                                         <td>
                                                             <div class="form-group">
-                                                                <span>{{ mainForm.get('desireData.' + i +
-                                                                    '.jobTitle')?.value }}</span>
+                                                                <span>{{ mainForm.get('desireData.' + i + '.jobTitle')?.value }}</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -418,6 +395,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                             </app-card>
 
                         </div>

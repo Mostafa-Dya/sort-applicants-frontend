@@ -14,25 +14,6 @@ const routes: Routes = [
         loadComponent: () => import('./job-description-card/add-show-job-description/add-show-job-description.component'),
       },
       {
-        path: 'button',
-        loadComponent: () => import('./basic-button/basic-button.component'),
-      },
-      {
-        path: 'breadcrumb-paging',
-        loadComponent: () =>
-          import('./breadcrumb-paging/breadcrumb-paging.component'),
-      },
-      {
-        path: 'collapse',
-        loadComponent: () =>
-          import('./basic-collapse/basic-collapse.component'),
-      },
-      {
-        path: 'tabs-pills',
-        loadComponent: () =>
-          import('./basic-tabs-pills/basic-tabs-pills.component'),
-      },
-      {
         path: 'job-description-card',
         loadComponent: () =>
           import('./job-description-card/job-description-card.component'),
@@ -80,4 +61,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class UiBasicRoutingModule {}
+export class SortApplicantsModule {}

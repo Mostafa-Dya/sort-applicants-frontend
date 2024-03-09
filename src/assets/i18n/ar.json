@@ -247,7 +247,13 @@
       "Delete Public": "حذف جهات عامة",
       "Add Sub Affiliated Entity":"اضف جهة تابعة فرعية",
       "Sub Affiliated Entity":"الجهة التابعة الفرعية",
-      "Language":"اللغة"
+      "Language":"اللغة",
+      "Settings":"إعدادات المستخدمين",
+      "Export Template":"طباعة قالب",
+      "Choose File":"اختر ملف",
+      "Import Data":"رفع الملف",
+      "Main Side is required":"حقل الجهة الاساسية مطلوب"
+
 
 
 

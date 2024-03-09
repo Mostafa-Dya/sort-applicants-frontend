@@ -19,7 +19,7 @@
                 </label>
                 <select id="governorate" class="form-select" aria-label="select example" required
                   formControlName="governorate">
-                  <option value="">أختر محافظة</option>
+                  <option value="">{{'Select Governorate'|translate}}</option>
                   <option *ngFor="let governorate of governorateNames" [value]="governorate">{{ governorate }}</option>
                 </select>
                 <span *ngIf="mainForm.get('governorate').invalid && mainForm.get('governorate').touched">

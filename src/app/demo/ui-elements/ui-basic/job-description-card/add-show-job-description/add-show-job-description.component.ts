@@ -79,7 +79,11 @@ export default class AddShowJobDescriptionComponent implements OnInit {
           await this.setFormData(res);
           // Call onPublicEntityChange to update sub_entities
           this.onPublicEntityChange();
-          this.onGeneralChange();
+          if(res){
+            this.onGeneralChange();
+
+          }
+
         });
       }
     });
@@ -140,21 +144,17 @@ export default class AddShowJobDescriptionComponent implements OnInit {
       category: data.category,
       public_entity: data.public_entity,
       sub_entity: data.sub_entity,
-
       affiliate_entity: data.affiliate_entity,
       sub_affiliate_entity: data.sub_affiliate_entity,
       gender_needed: data.gender_needed,
-
       card_number: data.card_number,
       vacancies: data.vacancies,
       job_title: data.job_title,
       assignees: data.assignees,
       notes: data.notes,
       status: data.status,
-      // general: data.general,
-      // precise: data.precise,
     });
-
+  
     // Check if specializationData is not null or undefined
     if (data.specialization_needed) {
       // Populate specializationData array
@@ -163,24 +163,35 @@ export default class AddShowJobDescriptionComponent implements OnInit {
         const specializationGroup = this.fb.group({
           degree: item.degree,
           specializationNeeded: item.specialization_needed,
-          specializationNeededPrecise:item.specialization_needed_precise
+          specializationNeededPrecise: item.specialization_needed_precise,
         });
         this.specializationSets.push(specializationGroup);
       });
     }
+  }
+  
 
-    for (let i = 0; i < this.specializationSets.length; i++) {
-      this.onSpecializationChange(i);
-  }
-  }
+onGeneralChange() {
+  const specializationControl = this.mainForm.get('specializationData') as FormArray;
 
-  onGeneralChange() {
-    const selectedGeneral = this.mainForm.get('specializationNeeded').value;
-    // Find the corresponding certificate object for the selected general specialization
-    const selectedCertificate = this.certificate.find(cert => cert.name === selectedGeneral);
-    // Update the preciseCertificates array based on the selected general specialization
-    this.preciseCertificates = selectedCertificate ? selectedCertificate.scientific_cert : [];
+  for (let i = 0; i < specializationControl.length; i++) {
+    const currentControl = specializationControl.at(i);
+    if (currentControl) {
+      const selectedSpecialization = currentControl.get('specializationNeeded').value;
+      const selectedCertificate = this.certificate.find(cert => cert.name === selectedSpecialization);
+      const preciseControl = currentControl.get('specializationNeededPrecise');
+
+      const specializationNeededPrecise = currentControl.get('specializationNeededPrecise').value;
+
+      preciseControl.setValue(specializationNeededPrecise); 
+      preciseControl.updateValueAndValidity(); 
+
+      // Update the options for the 'Precise Specialization Needed' select field
+      this.preciseCertificates[i] = selectedCertificate ? selectedCertificate.scientific_cert : [];
+    }
   }
+}
+
 
   onSpecializationChange(index: number) {
     // Get the selected specialization from the current specialization set
@@ -213,18 +224,18 @@ export default class AddShowJobDescriptionComponent implements OnInit {
     const selectedDegree = this.getDegreeControl(index).value;
     const entity = this.certificate.find((cert) => cert.type === selectedDegree);
     const specializationControl = this.getSpecializationSet(index).get('specializationNeeded');
-
+  
     if (entity) {
       // Assuming 'scientific_cert' property contains the array of specializations
       const specializationOptions = entity.scientific_cert.map((item) => item.name);
       specializationControl.setValue(''); // Clear previous selection
       specializationControl.setValidators([Validators.required]); // Set validator
-      specializationControl.updateValueAndValidity(); // Update validation status
     } else {
       specializationControl.clearValidators(); // Remove validator
-      specializationControl.updateValueAndValidity(); // Update validation status
     }
+    specializationControl.updateValueAndValidity(); // Update validation status
   }
+  
 
 
 

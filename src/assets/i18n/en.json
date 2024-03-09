@@ -246,7 +246,12 @@
      "Delete Public": "Delete Public",
      "Add Sub Affiliated Entity":"Add Sub Affiliated Entity",
      "Sub Affiliated Entity":"Sub Affiliated Entity",
-     "Language":"Language"
+     "Language":"Language",
+     "Settings":"Settings",
+     "Export Template":"Export Template",
+     "Choose File":"Choose File",
+     "Import Data":"Import Data",
+     "Main Side is required":"Main Side is required"
         
       
       

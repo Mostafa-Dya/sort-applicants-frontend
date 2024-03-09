@@ -6,7 +6,6 @@ import { ConfirmationDialogComponent } from 'src/app/theme/shared/confirmation-d
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslationService } from 'src/app/theme/shared/services/translation.service';
 import { Router } from '@angular/router';
-import { ApplicantsService } from 'src/app/theme/shared/services/applicants.service';
 import { GovernorateService } from 'src/app/theme/shared/services/governorate-description.service';
 import { GenerateResultsService } from 'src/app/theme/shared/services/generate-results.service';
 import { Category, SharedService } from 'src/app/theme/shared/services/shared.service';
@@ -57,7 +56,7 @@ interface TableColumn {
 }
 
 @Component({
-  selector: 'app-basic-typography',
+  selector: 'app-job-description',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './job-description-card.component.html',
