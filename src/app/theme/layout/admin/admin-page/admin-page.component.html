@@ -1,8 +1,8 @@
 <div class="container">
-    <h1>Manage Users</h1>
+    <h1>{{'Manage Users'|translate}}</h1>
     <div class="row">
         <div class="col-md-6" style="display: flex;">
-            <p style="margin: auto;width: 30%;">Search users:</p>
+            <p style="margin: auto;width: 30%;">{{'Search users'|translate}}:</p>
             <input class="form-control" type="text" [(ngModel)]="searchTerm" (input)="onUserSearch($event)">
         </div>
     </div>
@@ -11,11 +11,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Active</th>
-                    <th>Permissions</th>
+                    <th>{{'ID'|translate}}</th>
+                    <th>{{'Username'|translate}}</th>
+                    <th>{{'Email'|translate}}</th>
+                    <th>{{'Active'|translate}}</th>
+                    <th>{{'Permissions'|translate}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                         <mat-slide-toggle [checked]="user.permissions?.canActive === 1" (change)="toggleActive(user)"></mat-slide-toggle>
                     </td>
                     <td>
-                        <button class="btn btn-primary" mat-raised-button (click)="navigateToPermissions(user.id)">Set Permissions</button>
+                        <button class="btn btn-primary" mat-raised-button (click)="navigateToPermissions(user.id)">{{'Set Permissions'|translate}}</button>
                     </td>
                 </tr>
             </tbody>

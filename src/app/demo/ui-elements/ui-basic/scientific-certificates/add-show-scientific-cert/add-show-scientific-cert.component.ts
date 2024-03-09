@@ -45,12 +45,10 @@ export default class AddShowScientificCertComponent implements OnInit {
   ngOnInit() {
     this.initForm();
 
-    console.log(this.data);
 
     if (this.data) {
       this.scientificCertificateService.getScientificCertificateDataId(this.data).subscribe(res => {
         const certificateData = res.data[0]; // Access the first element of the array
-        console.log(certificateData);
 
         this.mainForm.patchValue({
           type: certificateData.type,

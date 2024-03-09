@@ -7,7 +7,7 @@ import { GovernorateService } from 'src/app/theme/shared/services/governorate-de
 import { PublicEntitieService } from 'src/app/theme/shared/services/public-entitie.service';
 import { TranslationService } from 'src/app/theme/shared/services/translation.service';
 import { JobDescriptionService } from 'src/app/theme/shared/services/job-description.service';
-import { debounceTime, finalize, switchMap } from 'rxjs';
+import { finalize } from 'rxjs';
 import { ScientificCertificateService } from 'src/app/theme/shared/services/scientific-certificate.service';
 import { ApplicantsService } from 'src/app/theme/shared/services/applicants.service';
 import { ActivatedRoute } from '@angular/router';
@@ -95,9 +95,9 @@ export default class AddShowApplicantsComponent implements OnInit {
     });
     this.role = localStorage.getItem('role');
     this.permissions = this.authService.permissionsService();
-    console.log(this.permissions)
     this.initForm();
   }
+  
 
   async setFormData(data: any) {
     const parsedCertificate = JSON.parse(data.certificate);
@@ -153,7 +153,6 @@ export default class AddShowApplicantsComponent implements OnInit {
       // Populate specializationData array
       this.desireSets.clear();
       data.desire_data.forEach((item) => {
-        console.log(item)
         const desireGroup = this.fb.group({
           governorateDesire: item.governorateDesire,
           publicEntitySide: item.publicEntitySide,
@@ -198,6 +197,8 @@ export default class AddShowApplicantsComponent implements OnInit {
       status: [false],
       specializationData: this.fb.array([]),
     });
+
+    
     this.desireSets = this.mainForm.get('desireData') as FormArray;
     this.specializationSets = this.mainForm.get('specializationData') as FormArray;
     this.addSpecializationSet();
@@ -227,9 +228,7 @@ export default class AddShowApplicantsComponent implements OnInit {
       primarySpecialization: [''],
       specifiedSpecialization: ['']
     });
-    console.log(this.desireSets.length)
     if (this.desireSets.length < 3) {
-      console.log(this.desireSets.length)
       this.desireSets.push(desireGroup);
       this.handleDesireGroupChanges(desireGroup);
 
@@ -262,7 +261,6 @@ export default class AddShowApplicantsComponent implements OnInit {
       );
     });
 
-    console.log(matchingJobDescription)
   
     if (matchingJobDescription) {
       // Card number exists, patch the values
@@ -279,12 +277,12 @@ export default class AddShowApplicantsComponent implements OnInit {
       const specializationNeededArray = desireGroup.get('specialization_needed') as FormArray;
       specializationNeededArray.clear();
       matchingJobDescription.specialization_needed.forEach(spec => {
-        console.log(spec);
-        specializationNeededArray.push(this.fb.group({
-          specialization_needed: spec
-        }));
+        const specializationGroup = this.fb.group({
+          specialization_needed: spec.specialization_needed,
+          specialization_needed_precise: spec.specialization_needed_precise
+        });
+        specializationNeededArray.push(specializationGroup);
       });
-      console.log(specializationNeededArray);
     } else {
       // Card number does not exist, reset the values or display a message
       desireGroup.patchValue({
@@ -295,7 +293,6 @@ export default class AddShowApplicantsComponent implements OnInit {
         primarySpecialization: '',
         specifiedSpecialization: ''
       });
-      console.log('Card number is unavailable.');
     }
   }
   removeDesireSet(index: number) {
@@ -376,10 +373,8 @@ export default class AddShowApplicantsComponent implements OnInit {
           )
           .subscribe(
             (response) => {
-              console.log('Applicant updated successfully:', response);
             },
             (error) => {
-              console.error('Error updating applicant:', error);
             }
           );
       } else {
@@ -392,7 +387,6 @@ export default class AddShowApplicantsComponent implements OnInit {
           )
           .subscribe(
             (response) => {
-              console.log('Applicant created successfully:', response);
             },
             (error) => {
               console.error('Error creating applicant:', error);

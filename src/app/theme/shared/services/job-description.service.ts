@@ -19,7 +19,6 @@ export class JobDescriptionService {
   }
 
   jobDescriptionTableData(data?: any): Observable<any> {
-    console.log(data)
     // Use the POST method to send data in the request body
     return this.http.post<any>(environment.api + 'job-description-table', data);
   }
@@ -45,7 +44,6 @@ export class JobDescriptionService {
     }
 
   updateJobDescription(jobID, data: any): Observable<any> {
-    console.log(data)
     return this.http.put<any>(environment.api + 'job-description/' + jobID, data);
   }
 

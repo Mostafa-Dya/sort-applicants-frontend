@@ -67,11 +67,11 @@ const routes: Routes = [
         loadComponent: () =>
           import('./applicants/add-show-applicants/add-show-applicants.component'),
       },
-      {
-        path: 'sort-applicants',
-        loadComponent: () =>
-          import('./applicants-job-sorting/applicants-job-sorting.component'),
-      },
+      // {
+      //   path: 'sort-applicants',
+      //   loadComponent: () =>
+      //     import('./applicants-job-sorting/applicants-job-sorting.component'),
+      // },
     ],
   },
 ];

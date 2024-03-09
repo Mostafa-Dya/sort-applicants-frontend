@@ -13,13 +13,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'sort-applicants',
+        redirectTo: 'basic/job-description-card',
         pathMatch: 'full',
       },
-      {
-        path: 'dashboard',
-        loadComponent: () => import('./demo/dashboard/dashboard.component'),
-      },
+      // {
+      //   path: 'dashboard',
+      //   loadComponent: () => import('./demo/dashboard/dashboard.component'),
+      // },
       {
         path: 'Admin',
         loadComponent: () => import('./theme/layout/admin/admin-page/admin-page.component'),
@@ -40,31 +40,31 @@ const routes: Routes = [
             (m) => m.UiBasicModule,
           ),
       },
-      {
-        path: 'forms',
-        canActivate:[AuthAdminService],
-        loadChildren: () =>
-          import('./demo/pages/form-elements/form-elements.module').then(
-            (m) => m.FormElementsModule,
-          ),
-      },
-      {
-        path: 'tables',
-        loadChildren: () =>
-          import('./demo/pages/tables/tables.module').then(
-            (m) => m.TablesModule,
-          ),
-      },
-      {
-        path: 'apexchart',
-        loadComponent: () =>
-          import('./demo/chart/apex-chart/apex-chart.component'),
-      },
-      {
-        path: 'sample-page',
-        loadComponent: () =>
-          import('./demo/extra/sample-page/sample-page.component'),
-      },
+      // {
+      //   path: 'forms',
+      //   canActivate:[AuthAdminService],
+      //   loadChildren: () =>
+      //     import('./demo/pages/form-elements/form-elements.module').then(
+      //       (m) => m.FormElementsModule,
+      //     ),
+      // },
+      // {
+      //   path: 'tables',
+      //   loadChildren: () =>
+      //     import('./demo/pages/tables/tables.module').then(
+      //       (m) => m.TablesModule,
+      //     ),
+      // },
+      // {
+      //   path: 'apexchart',
+      //   loadComponent: () =>
+      //     import('./demo/chart/apex-chart/apex-chart.component'),
+      // },
+      // {
+      //   path: 'sample-page',
+      //   loadComponent: () =>
+      //     import('./demo/extra/sample-page/sample-page.component'),
+      // },
     ],
   },
   {

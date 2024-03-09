@@ -32,7 +32,6 @@ export default class AddGovernorateDialogComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-      console.log(this.data);
       
       if (this.data) {
         this.governorateService.getGovernorateDataId(this.data).subscribe(res => {

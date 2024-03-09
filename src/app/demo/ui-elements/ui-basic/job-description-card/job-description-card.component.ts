@@ -172,6 +172,8 @@ export default class JobDescriptionCardComponent implements OnInit  {
   file: File | null = null;
   role:string;
   permissions:any;
+  selectedFileName: string | null = null; // Variable to store the selected file name
+
   constructor(
     private JobDescription:JobDescriptionService,
     private dialog: MatDialog,
@@ -205,9 +207,9 @@ export default class JobDescriptionCardComponent implements OnInit  {
 
       this.role = localStorage.getItem('role');
       this.permissions = this.authService.permissionsService();
-      console.log(this.permissions)
       
     }
+    
     
 
     jobDescriptionTable(){
@@ -299,7 +301,6 @@ export default class JobDescriptionCardComponent implements OnInit  {
     }
   
     sortColumn(columnName: any): void {
-      console.log(columnName)
       // Check if the column is already being sorted and toggle sorting order
       if (this.sortedColumn === columnName) {
         this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
@@ -312,21 +313,16 @@ export default class JobDescriptionCardComponent implements OnInit  {
       this.jobDescriptions.sort((a, b) => {
         if (typeof a[columnName] === 'number' && typeof b[columnName] === 'number') {
           // Compare numbers directly based on sorting order
-          console.log(this.sortOrder === 'asc' ? a[columnName] - b[columnName] : b[columnName] - a[columnName])
           return this.sortOrder === 'asc' ? a[columnName] - b[columnName] : b[columnName] - a[columnName];
         } else {
           // Use string comparison for non-numeric values based on sorting order
-          console.log(this.sortOrder === 'asc' ? a[columnName].localeCompare(b[columnName]) : b[columnName].localeCompare(a[columnName]))
           return this.sortOrder === 'asc' ? a[columnName].localeCompare(b[columnName]) : b[columnName].localeCompare(a[columnName]);
         }
       });
     }
     
     
-    test(){
-      const num = '01'
-      console.log(parseInt(num))
-    }
+
     
     
     showDetails(id) {
@@ -344,7 +340,6 @@ export default class JobDescriptionCardComponent implements OnInit  {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
       if (result) {
         // User confirmed, perform delete action
         this.JobDescription.jobDescriptionTableDataDeletesolo(id).subscribe(res => {
@@ -402,8 +397,7 @@ export default class JobDescriptionCardComponent implements OnInit  {
     });
 
   
-    console.log('Params:', params);
-    console.log('Body:', body);
+
   
     // Make sure your API call is correctly handling params and body
     this.JobDescription.jobDescriptionTableData({ ...params, ...body }).subscribe((res) => {
@@ -486,6 +480,7 @@ export default class JobDescriptionCardComponent implements OnInit  {
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];
+    this.selectedFileName = this.file ? this.file.name : null; // Update selectedFileName with the file name
   }
 
   importJobDescriptions() {
@@ -496,8 +491,9 @@ export default class JobDescriptionCardComponent implements OnInit  {
 
     this.excelService.importJobDescriptionHeader(this.file).subscribe(
       () => {
-        console.log('Job descriptions imported successfully');
-        // Optionally, add any further logic you need upon successful import
+        this.jobDescriptionTable();
+        this.file = null
+        this.selectedFileName = null
       },
       error => {
         console.error('Error importing job descriptions:', error);
@@ -547,7 +543,6 @@ export default class JobDescriptionCardComponent implements OnInit  {
     // Check if any job IDs are selected
     if (this.selectedJobIds.length === 0) {
       // If no job IDs are selected, show an alert or toast message
-      console.log("No job descriptions selected for deletion.");
       return;
     }
   

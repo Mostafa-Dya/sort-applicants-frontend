@@ -57,7 +57,6 @@ export class GovernorateService {
       params = params.set(request, data?.toString() || '');
     }
 
-    console.log(params);
     return this.http.delete<any>(`${environment.api}delete-governorates/${governorate_id}`, { params });
   }
   

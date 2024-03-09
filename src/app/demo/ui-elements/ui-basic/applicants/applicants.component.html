@@ -15,14 +15,6 @@
         <i class="feather icon-thumbs-up"></i>
         {{ 'Export Template' | translate }}
       </button>
-      <template >
-
-      </template>
-      <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls">
-      <button type="button" (click)="importApplicants()" class="btn btn-primary">
-        <i class="feather icon-upload"></i>
-        {{ 'Import Data' | translate }}
-      </button>
       <button type="button" class="btn btn-primary" 
       *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))"
       (click)="generateResults()">
@@ -35,6 +27,18 @@
         <i class="feather icon-thumbs-up"></i>
         {{ 'Cancel Results' | translate }}
       </button>
+      <div *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))" class="align-items-center">
+        <label class="btn btn-primary btn-file">
+            <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls" style="display: none;">
+            <i class="feather icon-upload"></i> {{ 'Choose File' | translate }}
+            <div>
+              <span *ngIf="selectedFileName" class="ml-2">{{ selectedFileName }}</span>
+            </div>
+        </label>
+        <button type="button" (click)="importApplicants()" class="btn btn-primary">
+            <i class="feather icon-download"></i> {{ 'Import Data' | translate }}
+        </button>
+    </div>
       <div class="circles">
         <div class="d-flex">
           <div class="red"></div>
@@ -189,12 +193,13 @@
             <td>
               <input type="checkbox" [checked]="isSelected(applicant.id)" (change)="toggleSelection($event, applicant.id)">
             </td>
-            <th scope="row">{{ applicant.id }}</th>
             <td>
               <div class="circles padding-top">
                 <div [ngClass]="{'green': applicant?.accepted === 1, 'red': applicant.accepted === 0}"></div>
               </div>
             </td>
+            <th scope="row">{{ applicant.id }}</th>
+
             <td>
               <i class="fas fa-info-circle hover" (click)="showDetails(applicant.id)"></i>
             </td>
@@ -243,10 +248,10 @@
         <button class="border-0 fs-4 bg-transparent" (click)="previousPage()" [disabled]="currentPage === 1">
             <i class="fa fa-angle-left bg-transparent"></i>
         </button>
-        <button class="border-0 fs-4 bg-transparent" (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+        <button class="border-0 fs-4 bg-transparent" (click)="nextPage()" [disabled]="currentPage === totalPages">
             <i class="fa fa-angle-right"></i>
         </button>
-        <button class="border-0 fs-4 bg-transparent" (click)="lastPage()" [disabled]="currentPage === totalPages - 1">
+        <button class="border-0 fs-4 bg-transparent" (click)="lastPage()" [disabled]="currentPage === totalPages">
             <i class="fa fa-angle-double-right"></i>
         </button>
         </div>

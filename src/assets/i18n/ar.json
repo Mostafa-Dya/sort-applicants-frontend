@@ -195,7 +195,62 @@
   "Are you sure you want to delete this record ?":"هل أنت متأكد من أنك تريد حذف هذا السجل ؟",
   "Are you sure you want to delete ?":"هل أنت متأكد من أنك تريد الحذف ؟",
   "Confirmation":"تأكيد",
-  "No Applicants Applied for this Job Yet":"لم يتقدم أي متقدم لهذه الوظيفة حتى الآن"
+  "No Applicants Applied for this Job Yet":"لم يتقدم أي متقدم لهذه الوظيفة حتى الآن",
+
+   "Select Public Entity":"اختر جهة عامة",
+    "Affiliate Entity":"الجهة التابعة",
+    "Select Affiliate Entity":"اختر الجهة التابعة",
+    "Sub Affiliate Entity":"الجهة التابعة الفرعية",
+    "Select Sub Affiliate Entity":"اختر الجهة التابعة الفرعية",
+
+    "Specified Gender Needed":"جنس محدد",
+    "Select Gender":"اختر جنس محدد",
+    "Male":"زكور",
+    "Female":"اناث",
+    "Indecisive":"غير محدد",
+    "Precise Specialization Needed":"الاختصاص الدقيق",
+    "Select Precise Specialization":"اختر الاختصاص الدقيق",
+    "Residence":"مكان الاقامة",
+    "Main Side":"الجهة الاساسية",
+    "Number of Centers":"عدد المراكز",
+    "Primary Specialization":"الاختصاص العام",
+    "Specified Specialization":"الاختصاص الدقيق",
+    "Select Main Entity":"اختر الجهة الاساسية",
+    "Manage Users":"إدارة المستخدمين",
+    "Search users":"البحث عن مستخدمين",
+    "Username":"اسم المستخدم",
+    "Active":"فعال",
+    "Permissions":"الصلاحيات",
+    "Set Permissions":"تعيين الصلاحيات",
+    "User Permissions":"صلاحية المستخدم",
+    "UserRole":"دور الحساب",
+    "Permission":"صلاحيات",
+    "Update Permissions":"تحديث الصلاحيات",
+
+
+
+      "Status Check": "التدقيق",
+      "Sortable": "قابل للفرز",
+      "Add Applicants": "إضافة المتقدمين",
+      "Add Certificate": "إضافة الشهادة",
+      "Add Job Description": "إضافة بطاقة الوصف الوظيفة",
+      "Add Public": "إضافة جهات عامة",
+      "Edit Applicants": "تعديل المتقدمين",
+      "Edit Certificate": "تعديل الشهادة",
+      "Edit Job Description": "تعديل وصف الوظيفة",
+      "Edit Governorate": "تعديل المحافظة",
+      "Edit Public": "تعديل جهات عامة",
+      "Delete Applicants": "حذف المتقدمين",
+      "Delete Certificate": "حذف الشهادات العلمية",
+      "Delete Job Description": "حذف بطاقة الوصف الوظيفة",
+      "Delete Governorate": "حذف المحافظة",
+      "Delete Public": "حذف جهات عامة",
+      "Add Sub Affiliated Entity":"اضف جهة تابعة فرعية",
+      "Sub Affiliated Entity":"الجهة التابعة الفرعية",
+      "Language":"اللغة"
+
+
+
 
 
 

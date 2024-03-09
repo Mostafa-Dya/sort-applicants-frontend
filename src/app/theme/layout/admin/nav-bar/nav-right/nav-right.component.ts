@@ -36,6 +36,7 @@ export class NavRightComponent implements OnInit {
   chatMessage: boolean;
   friendId: boolean;
   username:string;
+  role:string;
   constructor(config: NgbDropdownConfig,
     private authService:AuthService,
     private router: Router,
@@ -47,7 +48,8 @@ export class NavRightComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username=localStorage.getItem('username')
+    this.role = localStorage.getItem('role');
+    this.username=localStorage.getItem('username');
   }
 
   logout() {

@@ -109,7 +109,6 @@ performDelete(node): void {
         this.getData();
       });
     } else {
-      console.log(`Delete node with ID: ${node.id}`);
       this.governorateService.deleteGovernorateData(node.id)
       .subscribe(res => {
         // Refresh data after successful deletion

@@ -28,6 +28,9 @@ export default class AddShowJobDescriptionComponent implements OnInit {
   originalPublicEntities: any[] = []; // Maintain the original array
   publicEntities: any[] = [];
   subEntities: any[] = [];
+  affiliatedEntities: any[] = [];
+  subAffiliatedEntities: any[] = [];
+  
   certificate: any[] = [];
   preciseCertificates: any[] = [];
   jobID: number;
@@ -60,7 +63,6 @@ export default class AddShowJobDescriptionComponent implements OnInit {
     this.publicEntitieService.getPublicEntitieData().subscribe((res) => {
       this.originalPublicEntities = res.data;
       this.publicEntities = res.data;
-      console.log(res);
     });
     this.certificateService.getScientificCertificateData().subscribe((res) => {
       this.certificate = res.data;
@@ -82,6 +84,18 @@ export default class AddShowJobDescriptionComponent implements OnInit {
       }
     });
 
+    this.mainForm.get('public_entity').valueChanges.subscribe(() => {
+      this.onPublicEntityChange();
+    });
+
+    this.mainForm.get('sub_entity').valueChanges.subscribe(() => {
+      this.onSubEntityChange();
+    });
+
+    this.mainForm.get('affiliate_entity').valueChanges.subscribe(() => {
+      this.onAffiliateEntityChange();
+    });
+
 
         this.role = localStorage.getItem('role');
         this.permissions = this.authService.permissionsService();
@@ -90,9 +104,22 @@ export default class AddShowJobDescriptionComponent implements OnInit {
 
   onPublicEntityChange() {
     const selectedPublicEntity = this.mainForm.get('public_entity').value;
-    console.log(selectedPublicEntity);
     const entity = this.originalPublicEntities.find((e) => e.name === selectedPublicEntity);
     this.subEntities = entity ? entity.sub_entities : [];
+  }
+
+  onSubEntityChange() {
+    const selectedSubEntity = this.mainForm.get('sub_entity').value;
+    const entity = this.subEntities.find((e) => e.name === selectedSubEntity);
+    this.affiliatedEntities = entity ? entity.affiliated_entities : [];
+  }
+
+  onAffiliateEntityChange() {
+    const selectedAffiliateEntity = this.mainForm.get('affiliate_entity').value;
+    const entity = this.affiliatedEntities.find((e) => e.name === selectedAffiliateEntity);
+    this.subAffiliatedEntities = entity
+      ? entity.sub_affiliated_entities
+      : [];
   }
 
 
@@ -133,7 +160,6 @@ export default class AddShowJobDescriptionComponent implements OnInit {
       // Populate specializationData array
       this.specializationSets.clear();
       data.specialization_needed.forEach((item) => {
-        console.log(item)
         const specializationGroup = this.fb.group({
           degree: item.degree,
           specializationNeeded: item.specialization_needed,
@@ -165,7 +191,6 @@ export default class AddShowJobDescriptionComponent implements OnInit {
     const preciseControl = this.getSpecializationSet(index).get('specializationNeededPrecise');
     // Get the corresponding specializationNeededPrecise value from the API response
     const specializationNeededPrecise = this.getSpecializationSet(index).get('specializationNeededPrecise').value;
-  
     // Update the options for the 'Precise Specialization Needed' select field
     preciseControl.setValue(specializationNeededPrecise); // Patch specializationNeededPrecise value from API response
     preciseControl.setValidators(selectedCertificate ? Validators.required : null); // Set validator if certificate exists
@@ -176,30 +201,16 @@ export default class AddShowJobDescriptionComponent implements OnInit {
   
 
   getGeneralNames(index: number): string[] {
-    console.log(index)
     const selectedDegree = this.getDegreeControl(index).value;
     const selectedCertificates = this.certificate.filter(cert => cert.type === selectedDegree);
-    console.log(selectedDegree);
-    console.log(selectedCertificates);
+
   
     return selectedCertificates.map(cert => cert.name);
   }
 
-  getPreciseCertificates(index: number): any[] {
-    // Get the selected general specialization
-    const selectedGeneral = this.mainForm.get('specializationNeeded').value;
-
-    // Find the corresponding certificate object for the selected general specialization
-    const selectedCertificate = this.certificate.find(cert => cert.name === selectedGeneral);
-    // Return the precise certificates array if certificate is found, otherwise return an empty array
-    return selectedCertificate ? selectedCertificate.scientific_cert : [];
-  }
-
-
 
   onDegreeChange(index: number) {
     const selectedDegree = this.getDegreeControl(index).value;
-    console.log(selectedDegree);
     const entity = this.certificate.find((cert) => cert.type === selectedDegree);
     const specializationControl = this.getSpecializationSet(index).get('specializationNeeded');
 
@@ -270,13 +281,11 @@ export default class AddShowJobDescriptionComponent implements OnInit {
     let auditedBy = recordEntry;
     let formData;
 
-    console.log(this.mainForm.value)
-    console.log(entryDate)
+
     // Check if the form is valid
     if (this.mainForm.valid) {
       this.mainForm.get('assignees').enable();
 
-      console.log(this.mainForm)
       // Extract values from specializationSets controls
       const specializationData = this.specializationSets.controls.map((control) => {
         return {
@@ -328,7 +337,6 @@ export default class AddShowJobDescriptionComponent implements OnInit {
       }
 
 
-      console.log(formData);
 
       // Here, you can send the formData to your server or perform any other actions.
     } else {

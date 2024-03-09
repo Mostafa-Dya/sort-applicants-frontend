@@ -193,7 +193,64 @@
     "Are you sure you want to delete this record ?":"Are you sure you want to delete this record ?",
     "Are you sure you want to delete ?":"Are you sure you want to delete ?",
     "Confirmation":"Confirmation",
-    "No Applicants Applied for this Job Yet":"No Applicants Applied for this Job Yet"
+    "No Applicants Applied for this Job Yet":"No Applicants Applied for this Job Yet",
+
+
+    "Select Public Entity":"Select Public Entity",
+    "Affiliate Entity":"Affiliate Entity",
+    "Select Affiliate Entity":"Select Affiliate Entity",
+    "Sub Affiliate Entity":"Sub Affiliate Entity",
+    "Select Sub Affiliate Entity":"Select Sub Affiliate Entity",
+    "Specified Gender Needed":"Specified Gender Needed",
+    "Select Gender":"Select Gender",
+    "Male":"Male",
+    "Female":"Female",
+    "Indecisive":"Indecisive",
+    "Precise Specialization Needed":"Precise Specialization Needed",
+    "Select Precise Specialization":"Select Precise Specialization",
+    "Residence":"Residence",
+    "Main Side":"Main Side",
+    "Number of Centers":"Number of Centers",
+    "Primary Specialization":"Primary Specialization",
+    "Specified Specialization":"Specified Specialization",
+    "Select Main Entity":"Select Main Entity",
+    "Manage Users":"Manage Users",
+    "Search users":"Search users",
+    "Username":"Username",
+    "Active":"Active",
+    "Permissions":"Permissions",
+    "Set Permissions":"Set Permissions",
+    "User Permissions":"User Permissions",
+    "UserRole":"User Role",
+    "Permission":"Permission",
+    "Update Permissions":"Update Permissions",
+
+
+    
+
+     "Status Check": "Status Check",
+     "Sortable": "Sortable",
+     "Add Applicants": "Add Applicants",
+     "Add Certificate": "Add Certificate",
+     "Add Job Description": "Add Job Description",
+     "Add Public": "Add Public",
+     "Edit Applicants": "Edit Applicants",
+     "Edit Certificate": "Edit Certificate",
+     "Edit Job Description": "Edit Job Description",
+     "Edit Governorate": "Edit Governorate",
+     "Edit Public": "Edit Public",
+     "Delete Applicants": "Delete Applicants",
+     "Delete Certificate": "Delete Certificate",
+     "Delete Job Description": "Delete Job Description",
+     "Delete Governorate": "Delete Governorate",
+     "Delete Public": "Delete Public",
+     "Add Sub Affiliated Entity":"Add Sub Affiliated Entity",
+     "Sub Affiliated Entity":"Sub Affiliated Entity",
+     "Language":"Language"
+        
+      
+      
+
 
 
 

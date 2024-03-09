@@ -6,6 +6,7 @@ import {AuthService} from "../../../../Auth/auth.service"
 import { TokenAuthService } from 'src/app/Auth/token-auth.service';
 import { AuthenticationStateService } from 'src/app/Auth/authentication-state.service';
 import { TranslationService } from 'src/app/theme/shared/services/translation.service';
+import { RolesService } from 'src/app/theme/shared/services/roles.service';
 @Component({
   selector: 'app-auth-signin',
   templateUrl: './auth-signin.component.html',
@@ -22,16 +23,18 @@ export class AuthSigninComponent implements OnInit{
     private tokenAuthService: TokenAuthService,
     private authenticationStateService: AuthenticationStateService,
     private translate:TranslationService,
-
+    private rolesService:RolesService
     ){
     this.login = this.fb.group({
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl(null, [Validators.required]),
       password: new FormControl(null, Validators.required),
     });
   }
 
   ngOnInit(): void {
-    this.translate.setLanguage(localStorage.getItem('i18nextLng'));
+    if(localStorage.getItem('i18nextLng')){
+      this.translate.setLanguage(localStorage.getItem('i18nextLng'));
+    }
 
   }
 
@@ -51,7 +54,7 @@ export class AuthSigninComponent implements OnInit{
       localStorage.setItem('role', res.role);
       localStorage.setItem('username', res.name);
       if(res.permissions){
-        localStorage.setItem('permissions', JSON.stringify(res.permissions));
+        this.rolesService.setRole(JSON.stringify(res.permissions));
       }
       this.tokenStorage(res.token);
 
@@ -65,11 +68,9 @@ export class AuthSigninComponent implements OnInit{
       this.login.reset();
       const type = localStorage.getItem('role')!.toString();
       if (type == 'Admin') {
-        console.log('Admin')
-        this.router.navigate(['/sort-applicants']);
+        this.router.navigate(['/basic/job-description-card']);
       } else if (type == 'User') {
-        console.log('User')
-        this.router.navigate(['/sort-applicants']);
+        this.router.navigate(['/basic/job-description-card']);
       }
     })
   }

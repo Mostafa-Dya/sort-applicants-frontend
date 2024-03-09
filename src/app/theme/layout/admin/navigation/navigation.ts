@@ -32,14 +32,14 @@ const NavigationItems = [
     type: 'group',
     icon: 'icon-navigation',
     children: [
-      {
-        id: 'sort-applicants',
-        title: 'Sort Applicants',
-        type: 'item',
-        url: '/sort-applicants',
-        icon: 'feather icon-home',
-        classes: 'nav-item',
-      },
+      // {
+      //   id: 'sort-applicants',
+      //   title: 'Sort Applicants',
+      //   type: 'item',
+      //   url: '/sort-applicants',
+      //   icon: 'feather icon-home',
+      //   classes: 'nav-item',
+      // },
     ],
   },
   {

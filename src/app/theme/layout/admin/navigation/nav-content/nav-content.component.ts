@@ -50,15 +50,19 @@ export class NavContentComponent implements OnInit {
     if (this.windowWidth < 992) {
       this.config['layout'] = 'vertical';
       setTimeout(() => {
-        document
-          .querySelector('.pcoded-navbar')
-          .classList.add('menupos-static');
-        (
-          document.querySelector('#nav-ps-datta') as HTMLElement
-        ).style.maxHeight = '100%';
+        const navbar = document.querySelector('.pcoded-navbar');
+        if (navbar) {
+          navbar.classList.add('menupos-static');
+        }
+  
+        const navDatta = document.querySelector('#nav-ps-datta') as HTMLElement;
+        if (navDatta) {
+          navDatta.style.maxHeight = '100%';
+        }
       }, 500);
     }
   }
+  
 
   navMob() {
     if (

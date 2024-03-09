@@ -82,7 +82,6 @@ export default class ScientificCertificatesComponent implements OnInit {
     }
     
 performDelete(node): void {
-    console.log(node)
     if(node.level == 1){
       this.scientificCertificateService.deleteScientificCertificateData(node.certificate_general_id, node.id)
       .subscribe(res => {
@@ -90,7 +89,6 @@ performDelete(node): void {
         this.getData();
       });
     } else {
-      console.log(`Delete node with ID: ${node.id}`);
       this.scientificCertificateService.deleteScientificCertificateData(node.id)
       .subscribe(res => {
         // Refresh data after successful deletion
@@ -104,7 +102,6 @@ performDelete(node): void {
 getData(): void {
   this.scientificCertificateService.getScientificCertificateData().subscribe((res) => {
     const scientificCertificates: GovernorateNode[] = res.data.map((certificate) => {
-      console.log(certificate);
 
       const precise: GovernorateNode[] = certificate.scientific_cert
         ? certificate.scientific_cert.map((precise) => ({
@@ -113,7 +110,6 @@ getData(): void {
           }))
         : [];
       
-      console.log(precise);
 
       return {
         id: certificate.id,

@@ -14,6 +14,7 @@ import { GenerateResultsService } from 'src/app/theme/shared/services/generate-r
 import { Category, SharedService } from 'src/app/theme/shared/services/shared.service';
 import { ExcelService } from 'src/app/theme/shared/services/excel.service';
 import { AuthService } from 'src/app/Auth/auth.service';
+import { RolesService } from 'src/app/theme/shared/services/roles.service';
 
 
 interface Applicant {
@@ -85,7 +86,7 @@ export default class ApplicantsComponent implements OnInit  {
   categoryOptions: { value: string; label: string }[] = []; // Add categoryOptions
   governorateOptions: { value: string; label: string }[] = [];
   selectedIds: number[] = [];
-
+  selectedFileName: string | null = null; // Variable to store the selected file name
   numericFields: NumericField[] = [
     { name: 'id', label: 'ID', 
         conditions: [
@@ -150,8 +151,8 @@ export default class ApplicantsComponent implements OnInit  {
   ];
 
   columnData: TableColumn[] = [
-    { name: 'id', label: 'ID',sortable: true },
     { name: '', label: '', sortable: false },
+    { name: 'id', label: 'ID',sortable: true },
     { name: '', label: 'Details', sortable: false },
     { name: '', label: 'Delete', sortable: false },
     { name: 'status', label: 'Status', sortable: true },
@@ -192,7 +193,8 @@ export default class ApplicantsComponent implements OnInit  {
     private generateResult:GenerateResultsService,
     private sharedService:SharedService,
     private excelService:ExcelService,
-    private authService:AuthService
+    private authService:AuthService,
+    private rolesService:RolesService
     ){
       this.applicantTable();
     }
@@ -228,6 +230,7 @@ export default class ApplicantsComponent implements OnInit  {
         this.calculateTotalPages();
       });
       this.role = localStorage.getItem('role');
+
       this.permissions = this.authService.permissionsService();
     }
     
@@ -276,7 +279,6 @@ export default class ApplicantsComponent implements OnInit  {
       // Check if any applicant IDs are selected
       if (this.selectedIds.length === 0) {
         // If no applicant IDs are selected, show an alert or toast message
-        console.log("No applicants selected for deletion.");
         return;
       }
     
@@ -349,7 +351,6 @@ export default class ApplicantsComponent implements OnInit  {
     paginateData(): Applicant[] {
       const startIndex = (this.currentPage - 1) * this.pageSizeSelected;
       const endIndex = Math.min(startIndex + this.pageSizeSelected, this.applicants.length);
-      console.log(this.applicants.slice(startIndex, endIndex))
       return this.applicants.slice(startIndex, endIndex);
     }
     
@@ -370,7 +371,7 @@ export default class ApplicantsComponent implements OnInit  {
     }
     
     lastPage(): void {
-      this.currentPage = this.totalPages - 1;
+      this.currentPage = this.totalPages;
     }
     
     getRange(): string {
@@ -386,10 +387,10 @@ export default class ApplicantsComponent implements OnInit  {
     }
     
     calculateTotalPages(): void {
-      // Calculate total number of items by summing the lengths of specialization_data arrays
-      const totalItems = this.applicants.reduce((total, applicant) => total + applicant.specialization_data.length, 0);
-      this.totalPages = Math.ceil(totalItems / this.pageSizeSelected);
+      // Calculate total number of pages based on the length of the applicants array and page size
+      this.totalPages = Math.ceil(this.applicants.length / this.pageSizeSelected);
     }
+    
     
     
     addApplicants(){
@@ -444,7 +445,6 @@ export default class ApplicantsComponent implements OnInit  {
     }
 
     sortColumn(columnName: any): void {
-      console.log(columnName)
       // Check if the column is already being sorted and toggle sorting order
       if (this.sortedColumn === columnName) {
         this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
@@ -457,11 +457,9 @@ export default class ApplicantsComponent implements OnInit  {
       this.applicants.sort((a, b) => {
         if (typeof a[columnName] === 'number' && typeof b[columnName] === 'number') {
           // Compare numbers directly based on sorting order
-          console.log(this.sortOrder === 'asc' ? a[columnName] - b[columnName] : b[columnName] - a[columnName])
           return this.sortOrder === 'asc' ? a[columnName] - b[columnName] : b[columnName] - a[columnName];
         } else {
           // Use string comparison for non-numeric values based on sorting order
-          console.log(this.sortOrder === 'asc' ? a[columnName].localeCompare(b[columnName]) : b[columnName].localeCompare(a[columnName]))
           return this.sortOrder === 'asc' ? a[columnName].localeCompare(b[columnName]) : b[columnName].localeCompare(a[columnName]);
         }
       });
@@ -475,7 +473,6 @@ export default class ApplicantsComponent implements OnInit  {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
       if (result) {
         // User confirmed, perform delete action
         this.applicantsService.deleteApplicantsByID(id).subscribe(res => {
@@ -550,8 +547,6 @@ export default class ApplicantsComponent implements OnInit  {
       }
     });
   
-    console.log('Params:', params);
-    console.log('Body:', body);
   
     // Make sure your API call is correctly handling params and body
     this.applicantsService.getApplicants({ ...params, ...body }).subscribe((res) => {
@@ -579,7 +574,6 @@ export default class ApplicantsComponent implements OnInit  {
       }
     });
   
-    console.log(searchFilter);
   
     // Pass the search filter along with the export request
     this.excelService.exportApplicants(searchFilter).subscribe(blob => {
@@ -596,6 +590,8 @@ export default class ApplicantsComponent implements OnInit  {
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];
+    this.selectedFileName = this.file ? this.file.name : null; // Update selectedFileName with the file name
+
   }
 
   importApplicants() {
@@ -606,7 +602,10 @@ export default class ApplicantsComponent implements OnInit  {
 
     this.excelService.importApplicantsHeader(this.file).subscribe(
       () => {
-        console.log('Applicants imported successfully');
+        
+        this.applicantTable();
+        this.file=null;
+        this.selectedFileName=null;
         // Optionally, add any further logic you need upon successful import
       },
       error => {

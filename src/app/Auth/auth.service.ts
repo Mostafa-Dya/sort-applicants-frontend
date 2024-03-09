@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
+import { RolesService } from '../theme/shared/services/roles.service';
 
 interface Permissions 
   {
@@ -32,10 +33,17 @@ interface Permissions
 })
 export class AuthService {
   permissions = Permissions;
-  constructor(private http: HttpClient) {}
-
+  constructor(private http: HttpClient,
+    private rolesService:RolesService
+    
+    ) {}
+  
   login(user: any): Observable<any> {
     return this.http.post<any>(environment.api + 'login', user);
+  }
+
+  register(user: any): Observable<any> {
+    return this.http.post<any>(environment.api + 'register', user);
   }
 
   logout(): Observable<any> {
@@ -59,12 +67,12 @@ export class AuthService {
   }
 
   updatePermissions(permissions: any, userId: number): Observable<any> {
-    console.log(userId)
     return this.http.put<any>(environment.api +'permissions/'+ userId, permissions);
   }
 
   permissionsService(){
-    const permissionsValues = localStorage.getItem('permissions')
+    const permissionsValues = this.rolesService.getRole();
+
     if(permissionsValues){
       this.permissions = JSON.parse(permissionsValues);
     }

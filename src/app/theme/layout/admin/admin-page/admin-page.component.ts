@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Auth/auth.service';
+import { TranslationService } from 'src/app/theme/shared/services/translation.service';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 
 
@@ -18,20 +19,20 @@ export default class AdminPageComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-
+    private translate:TranslationService,
     ) {}
 
   ngOnInit(): void {
+    this.translate.setLanguage(localStorage.getItem('i18nextLng'));
+
     this.authService.getUsers().subscribe(users =>
       {
        this.users = users.users.filter(user => user.role !== 'Admin');
-       console.log(this.users)
       });
   }
 
   toggleActive(user: any): void {
     user.permissions.canActive = user.permissions.canActive === 0 ? 1 : 0;
-    console.log(user.permissions.canActive)
     this.authService.updateCanActive(user.id,user.permissions.canActive)
       .subscribe(() => console.log('User status updated'));
   }
@@ -54,7 +55,6 @@ export default class AdminPageComponent {
   
 
   navigateToPermissions(userID){
-    console.log(userID)
     this.router.navigate(['/users-permissions', userID]);
   }
 }

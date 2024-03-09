@@ -19,7 +19,6 @@ export class PublicEntitieService {
   } 
 
   createPublicEntitieData(data): Observable<any> {
-    console.log(data)
     return this.http.post<any>(environment.api + 'create-public-entities', data);
   }
 
@@ -29,7 +28,6 @@ export class PublicEntitieService {
 
   deletePublicEntity(data): Observable<any> {
     let params: HttpParams;
-    console.log(data);
 
     if (data.level === 0) {
         // Node is a top-level public entity

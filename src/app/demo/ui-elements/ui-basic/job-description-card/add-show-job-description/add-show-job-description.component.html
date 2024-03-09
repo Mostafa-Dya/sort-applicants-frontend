@@ -53,7 +53,7 @@
                 </label>
                 <select id="public-entity" class="form-select" aria-label="select example" required
                   formControlName="public_entity" (change)="onPublicEntityChange()">
-                  <option value="">أختر جهة عامة</option>
+                  <option value="">{{'Select Public Entity'|translate}}</option>
                   <option *ngFor="let entity of publicEntities" [value]="entity.name">{{ entity.name }}</option>
                 </select>
                 <span *ngIf="mainForm.get('public_entity').invalid && mainForm.get('public_entity').touched">
@@ -78,10 +78,10 @@
                 <label for="affiliate-entity" class="form-label">
                   {{'Affiliate Entity'|translate}} 
                 </label>
-                <select id="affiliate-entity" class="form-select" required formControlName="affiliate_entity">
+                <select id="affiliate-entity" class="form-select" formControlName="affiliate_entity">
                   <option value="">{{'Select Affiliate Entity'|translate}}
                   </option>
-                  <option *ngFor="let subEntity of subEntities" [value]="subEntity.name">{{ subEntity.name |translate}}
+                  <option *ngFor="let affiliated of affiliatedEntities" [value]="affiliated.name">{{ affiliated.name |translate}}
                   </option>
                 </select>
               </div>
@@ -89,10 +89,10 @@
                 <label for="sub-affiliate-entity" class="form-label">
                   {{'Sub Affiliate Entity'|translate}}
                 </label>
-                <select id="sub-affiliate-entity" class="form-select" required formControlName="sub_affiliate_entity">
+                <select id="sub-affiliate-entity" class="form-select" formControlName="sub_affiliate_entity">
                   <option value="">{{'Select Sub Affiliate Entity'|translate}}
                   </option>
-                  <option *ngFor="let subEntity of subEntities" [value]="subEntity.name">{{ subEntity.name |translate}}
+                  <option *ngFor="let subAffiliated of subAffiliatedEntities" [value]="subAffiliated.name">{{ subAffiliated.name |translate}}
                   </option>
                 </select>
               </div>
@@ -107,6 +107,8 @@
                   <option value="0">{{'Male'|translate}}
                   </option>
                   <option value="1">{{'Female'|translate}}
+                  </option>
+                  <option value="2">{{'Indecisive'|translate}}
                   </option>
 
                 </select>
@@ -214,7 +216,7 @@
                     <div class="form-group col-md-4">
                       <label for="specializationNeededPrecise{{i}}" class="form-label">{{ 'Precise Specialization Needed' | translate }}</label>
                       <select id="specializationNeededPrecise{{i}}" class="form-select" aria-label="select example" formControlName="specializationNeededPrecise">
-                        <option value="">{{ 'Select precise specialization' | translate }}</option>
+                        <option value="">{{ 'Select Precise Specialization' | translate }}</option>
                         <option *ngFor="let preciseCert of preciseCertificates[i]" [value]="preciseCert.name">
                           {{ preciseCert.name }}
                         </option>

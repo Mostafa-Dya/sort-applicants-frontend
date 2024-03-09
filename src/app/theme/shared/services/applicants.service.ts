@@ -16,7 +16,6 @@ export class ApplicantsService {
   //   return this.http.get<any>(environment.api + 'applicants');
   // }
   getApplicants(data?: any): Observable<any> {
-    console.log(data)
     // Use the POST method to send data in the request body
     return this.http.post<any>(environment.api + 'applicants', data);
   }
@@ -31,7 +30,6 @@ export class ApplicantsService {
   }
 
   deleteApplicantsByIDs(id): Observable<any> {
-    console.log({ids:id})
     return this.http.post<any>(environment.api + 'delete-applicants', { ids: id });
     }
   

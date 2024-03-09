@@ -92,7 +92,6 @@ export default class PublicEntitiesComponent implements OnInit {
 // Add this function to refresh the data
 getData(): void {
   this.publicEntitieService.getPublicEntitieData().subscribe((res) => {
-    console.log(res);
     const publicEntities: PublicEntitieNode[] = res.data.map((publicEntity) => {
       const subEntities: PublicEntitieNode[] = publicEntity.sub_entities
         ? publicEntity.sub_entities.map((subEntity) => ({
@@ -142,7 +141,6 @@ onPreview(node: ExampleFlatNode) {
 }
 
 onDelete(node: ExampleFlatNode): void {
-  console.log(node)
   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
     data: {
       message: 'Are you sure you want to delete ?',
