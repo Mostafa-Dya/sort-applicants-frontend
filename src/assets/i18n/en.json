@@ -251,7 +251,13 @@
      "Export Template":"Export Template",
      "Choose File":"Choose File",
      "Import Data":"Import Data",
-     "Main Side is required":"Main Side is required"
+     "Main Side is required":"Main Side is required",
+     "Go to Home":"Go to Home",
+     "Sign up":"Sign up",
+     "Username is required":"Username is required",
+     "Confirmation password is required":"Confirmation password is required",
+     "Passwords must match":"Passwords must match",
+     "Confirm Password":"Confirm Password"
         
       
       

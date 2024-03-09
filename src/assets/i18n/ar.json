@@ -252,7 +252,14 @@
       "Export Template":"طباعة قالب",
       "Choose File":"اختر ملف",
       "Import Data":"رفع الملف",
-      "Main Side is required":"حقل الجهة الاساسية مطلوب"
+      "Main Side is required":"حقل الجهة الاساسية مطلوب",
+      "Go to Home":"اذهب إلى الصفحة الرئيسية",
+      "Sign up":"انشئ حساب",
+      "Username is required":"اسم المستخدم مطلوب",
+      "Confirmation password is required":"تأكيد كلمة المرور مطلوب",
+      "Passwords must match":"يجب أن تتطابق كلمات المرور",
+      "Confirm Password":"تأكيد كلمة المرور"
+
 
 
 

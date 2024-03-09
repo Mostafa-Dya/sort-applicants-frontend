@@ -37,6 +37,10 @@ export default class AdminPageComponent {
       .subscribe(() => console.log('User status updated'));
   }
 
+  navigateSignup(){
+    this.router.navigate(['/signup'])
+  }
+
   onUserSearch(event: any): void {
     const term: string = event.target.value;
     this.searchTerm = term.trim().toLowerCase();

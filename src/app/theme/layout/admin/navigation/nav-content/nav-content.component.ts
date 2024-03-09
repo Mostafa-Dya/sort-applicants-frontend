@@ -19,8 +19,6 @@ import { environment } from 'src/environments/environment';
 })
 export class NavContentComponent implements OnInit {
   // version
-  title = 'Demo application for version numbering';
-  currentApplicationVersion = environment.appVersion;
 
   @Output() onNavCollapsedMob = new EventEmitter();
 
