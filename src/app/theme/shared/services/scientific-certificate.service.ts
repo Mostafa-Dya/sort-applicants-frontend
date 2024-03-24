@@ -4,33 +4,45 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScientificCertificateService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getScientificCertificateData(): Observable<any> {
     return this.http.get<any>(environment.api + 'get-scientific-certificate');
   }
 
   getScientificCertificateDataId(certificate_id: number): Observable<any> {
-    return this.http.get<any>(`${environment.api}scientific-certificate-get/${certificate_id}`);
+    return this.http.get<any>(
+      `${environment.api}scientific-certificate-get/${certificate_id}`,
+    );
   }
 
   createScientificCertificateData(data): Observable<any> {
-    return this.http.post<any>(environment.api + 'create-scientific-certificate', data);
+    return this.http.post<any>(
+      environment.api + 'create-scientific-certificate',
+      data,
+    );
   }
 
-  updateScientificCertificateData(certificate_id: number, data): Observable<any> {
-    return this.http.put<any>(`${environment.api}update-scientific-certificate/${certificate_id}`, data);
+  updateScientificCertificateData(
+    certificate_id: number,
+    data,
+  ): Observable<any> {
+    return this.http.put<any>(
+      `${environment.api}update-scientific-certificate/${certificate_id}`,
+      data,
+    );
   }
 
-
-  deleteScientificCertificateData(certificate_id: number, data?: any[]): Observable<any> {
+  deleteScientificCertificateData(
+    certificate_id: number,
+    data?: any[],
+  ): Observable<any> {
     let request: string;
     if (data) {
-      request = "certificate_precise_ids[]";
+      request = 'certificate_precise_ids[]';
     }
 
     let params = new HttpParams();
@@ -45,8 +57,9 @@ export class ScientificCertificateService {
       params = params.set(request, data?.toString() || '');
     }
 
-    return this.http.delete<any>(`${environment.api}delete-scientific-certificate/${certificate_id}`, { params });
+    return this.http.delete<any>(
+      `${environment.api}delete-scientific-certificate/${certificate_id}`,
+      { params },
+    );
   }
 }
-
-

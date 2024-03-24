@@ -2,45 +2,41 @@
   <app-card cardTitle="{{'Job Description'|translate}}" [options]="false">
     <div class="header">
       <button type="button" class="btn btn-primary" (click)="addJobDescription()"
-      *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))">
-        <i class="feather icon-thumbs-up"></i>
+        *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))">
         {{ 'Add' | translate }}
       </button>
       <button type="button" (click)="exportJobDescription()" class="btn btn-primary">
-        <i class="feather icon-thumbs-up"></i>
         {{ 'Print' | translate }}
       </button>
       <button type="button" (click)="exportJobDescriptionHeaders()" class="btn btn-primary">
-        <i class="feather icon-thumbs-up"></i>
         {{ 'Export Template' | translate }}
       </button>
 
-    
-    
-      
+
+
+
       <button type="button" class="btn btn-primary" (click)="generateResults()"
-      *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))">
-        <i class="feather icon-thumbs-up"></i>
+        *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))">
         {{ 'Generate Results' | translate }}
       </button>
       <button type="button" class="btn btn-primary" (click)="revertResults()"
-      *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))">
-        <i class="feather icon-thumbs-up"></i>
+        *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))">
         {{ 'Cancel Results' | translate }}
       </button>
-      <div *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))" class="d-flex align-items-center">
+      <div *ngIf="(role === 'Admin' || (role === 'User' && permissions.addJobDescription === 1))"
+        class="d-flex align-items-center">
         <label class="btn btn-primary btn-file">
-            <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls" style="display: none;">
-            <i class="feather icon-upload"></i> {{ 'Choose File' | translate }}
-            <div>
-              <span *ngIf="selectedFileName" class="ml-2">{{ selectedFileName }}</span>
-            </div>
+          <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls" style="display: none;">
+          <i class="feather icon-upload"></i> {{ 'Choose File' | translate }}
+          <div>
+            <span *ngIf="selectedFileName" class="ml-2">{{ selectedFileName }}</span>
+          </div>
 
         </label>
         <button type="button" (click)="importJobDescriptions()" class="btn btn-success ml-2">
-            <i class="feather icon-download"></i> {{ 'Import Data' | translate }}
+          <i class="feather icon-download"></i> {{ 'Import Data' | translate }}
         </button>
-    </div>
+      </div>
       <div class="circles mt-auto mb-auto">
         <div class="d-flex">
           <div class="red"></div>
@@ -57,7 +53,7 @@
       </div>
 
 
-      
+
 
     </div>
     <br>
@@ -77,12 +73,14 @@
 
                       <div class="col-md-6 form-group" *ngFor="let field of searchFields">
                         <label for="{{ field.name }}">{{ field.label | titlecase | translate }}</label>
-                        <select class="form-control" [id]="field.name" *ngIf="searchForm.get(field.name)" [formControlName]="field.name">
+                        <select class="form-control" [id]="field.name" *ngIf="searchForm.get(field.name)"
+                          [formControlName]="field.name">
                           <option value="" selected>{{ 'Select ' + field.label | translate }}</option>
-                          <option *ngFor="let option of field.options" [value]="option.value">{{ option.label | translate }}</option>
+                          <option *ngFor="let option of field.options" [value]="option.value">{{ option.label |
+                            translate }}</option>
                         </select>
-                    </div>
-                      
+                      </div>
+
 
                       <!-- String Fields -->
                       <div class="col-md-6 form-group" *ngFor="let field of stringFields">
@@ -145,36 +143,35 @@
               <i class="fas fa-trash-alt icon-position" (click)="deleteSelected()"></i>
 
             </th>
-        <ng-container *ngFor="let column of columnData">
-          <ng-container *ngIf="column.label !== 'Delete'">
-              <!-- Render other table headers normally -->
+            <ng-container *ngFor="let column of columnData">
+              <ng-container *ngIf="column.label !== 'Delete'">
+                <!-- Render other table headers normally -->
 
-              <th 
-                  (click)="column.sortable ? sortColumn(column.name) : ''" 
+                <th (click)="column.sortable ? sortColumn(column.name) : ''"
                   style="cursor: pointer; position: relative;">
                   {{ column.label | translate }}
-                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
-                          *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
-                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
-                          *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
-              </th>
-          </ng-container>
-          <ng-container *ngIf="column.label === 'Delete'">
-              <th *ngIf="(role === 'Admin' || (role === 'User' && permissions.deleteJobDescription === 1))">
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }"
+                    *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }"
+                    *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
+                </th>
+              </ng-container>
+              <ng-container *ngIf="column.label === 'Delete'">
+                <th *ngIf="(role === 'Admin' || (role === 'User' && permissions.deleteJobDescription === 1))">
                   {{ column.label | translate }}
-                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
-                          *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
-                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }" 
-                          *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
-              </th>
-          </ng-container>
-      </ng-container>
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }"
+                    *ngIf="column.sortable && sortOrder === 'asc'">keyboard_arrow_up</mat-icon>
+                  <mat-icon [ngClass]="{ 'sorted': sortedColumn === column.name && sortOrder !== null }"
+                    *ngIf="column.sortable && sortOrder === 'desc'">keyboard_arrow_down</mat-icon>
+                </th>
+              </ng-container>
+            </ng-container>
 
 
           </tr>
         </thead>
-        
-        
+
+
         <tbody>
           <tr *ngFor="let job of paginateData(); let i = index">
             <!-- <th scope="row">{{ (currentPage - 1) * pageSizeSelected + i + 1 }}</th> -->
@@ -196,7 +193,7 @@
             <td *ngIf="this.role === 'Admin' || this.role === 'User' && this.permissions.deleteJobDescription === 1">
               <i class="fas fa-trash-alt" (click)="deleteRecord(job.id)"></i>
             </td>
-            <td>{{ getCategoryString(job.category) }}</td>
+            <td>{{ getCategoryString(job.category) | translate}}</td>
             <td>{{ job.public_entity }}</td>
             <td>{{ job.sub_entity }}</td>
             <td>{{ job.governorate }}</td>
@@ -205,9 +202,9 @@
             <td>{{ job.assignees }}</td>
             <td>{{ job.vacancies }}</td>
             <td>{{ job.card_number }}</td>
-            <ng-template>
+            <!-- <ng-template>
               <td>{{ job.general }}</td>
-            </ng-template>
+            </ng-template> -->
             <td>{{ job.record_entry }}</td>
             <td>{{ job.entry_date }}</td>
             <td>{{ job.last_modifier }}</td>
@@ -220,37 +217,37 @@
     <div class="pagination-controls d-flex justify-content-between">
       <div class="d-flex row">
         <div class="col-md-auto mt-auto mb-auto">
-          <span style="width: 100%;" class="">Items Per Page:</span>
+          <span style="width: 100%;" class="">{{'Items Per Page'|translate}}:</span>
         </div>
         <div class="col-md-auto">
           <select class="form-control" [(ngModel)]="pageSizeSelected" (change)="changePageSize(pageSizeSelected)">
             <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
-        </select>
+          </select>
         </div>
       </div>
       <div class="row">
         <div class="col-md-auto mt-auto mb-auto">
-          <span class="mt-auto mb-auto">{{ getRange() }} of {{ jobDescriptions.length }}</span> 
+          <span class="mt-auto mb-auto">{{ getRange() }} of {{ jobDescriptions.length }}</span>
         </div>
         <div class="col-md-auto mt-auto mb-auto">
           <button class="border-0 fs-4 bg-transparent" (click)="firstPage()" [disabled]="currentPage === 1">
             <i class="fa fa-angle-double-left"></i>
-        </button>
-        <button class="border-0 fs-4 bg-transparent" (click)="previousPage()" [disabled]="currentPage === 1">
+          </button>
+          <button class="border-0 fs-4 bg-transparent" (click)="previousPage()" [disabled]="currentPage === 1">
             <i class="fa fa-angle-left bg-transparent"></i>
-        </button>
-        <button class="border-0 fs-4 bg-transparent" (click)="nextPage()" [disabled]="currentPage === totalPages">
+          </button>
+          <button class="border-0 fs-4 bg-transparent" (click)="nextPage()" [disabled]="currentPage === totalPages">
             <i class="fa fa-angle-right"></i>
-        </button>
-        <button class="border-0 fs-4 bg-transparent" (click)="lastPage()" [disabled]="currentPage === totalPages">
+          </button>
+          <button class="border-0 fs-4 bg-transparent" (click)="lastPage()" [disabled]="currentPage === totalPages">
             <i class="fa fa-angle-double-right"></i>
-        </button>
+          </button>
         </div>
 
       </div>
 
-  </div>
-  
-    
+    </div>
+
+
   </app-card>
 </div>

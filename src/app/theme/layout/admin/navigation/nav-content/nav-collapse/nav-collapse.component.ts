@@ -20,18 +20,17 @@ import { TranslationService } from 'src/app/theme/shared/services/translation.se
     ]),
   ],
 })
-export class NavCollapseComponent implements OnInit{
+export class NavCollapseComponent implements OnInit {
   public visible;
   @Input() item: NavigationItem;
   themeLayout: string;
 
-  constructor(private translate:TranslationService,    ) {
+  constructor(private translate: TranslationService) {
     this.visible = false;
     this.themeLayout = DattaConfig.layout;
   }
   ngOnInit(): void {
     this.translate.setLanguage(localStorage.getItem('i18nextLng'));
-
   }
 
   navCollapse(e) {

@@ -11,38 +11,47 @@
         <div class="mb-4">
           <i class="feather icon-unlock auth-icon"></i>
         </div>
-        <h3 class="mb-4">{{'Login'|translate}}</h3>
+        <h3 class="mb-4">{{ "Login" | translate }}</h3>
         <form [formGroup]="login" (ngSubmit)="onSubmit()">
           <div class="input-group mb-3">
             <input
               type="email"
               class="form-control"
-              placeholder="{{'Email'|translate}}"
+              placeholder="{{ 'Email' | translate }}"
               formControlName="email"
             />
-
           </div>
           <div
-          *ngIf="login.get('email').hasError('required') && login.get('email').touched"
-          class="text-danger"
-        >
-          {{'Email is required'|translate}}
-        </div>
+            *ngIf="
+              login.get('email').hasError('required') &&
+              login.get('email').touched
+            "
+            class="text-danger alignment-sign"
+          >
+            {{ "Email is required" | translate }}
+          </div>
           <div class="input-group mb-4">
             <input
-              type="password"
+              [type]="showPassword ? 'text' : 'password'"
               class="form-control"
-              placeholder="{{'Password'|translate}}"
+              placeholder="{{ 'Password' | translate }}"
               formControlName="password"
             />
-
+              <span class="input-group-text" (click)="togglePasswordVisibility()">
+                <!-- Icon for show/hide password -->
+                <i class="fa" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+              </span>
           </div>
+          
           <div
-          *ngIf="login.get('password').hasError('required') && login.get('password').touched"
-          class="text-danger"
-        >
-          {{'Password is required'|translate}}
-        </div>
+            *ngIf="
+              login.get('password').hasError('required') &&
+              login.get('password').touched
+            "
+            class="text-danger alignment-sign"
+          >
+            {{ "Password is required" | translate }}
+          </div>
           <!-- <div class="form-group text-start mb-4">
             <div class="checkbox checkbox-fill d-inline">
               <input
@@ -54,7 +63,9 @@
               <label for="checkbox-fill-a1" class="cr"> Save Details</label>
             </div>
           </div> -->
-          <button class="btn btn-primary mb-4" [disabled]="login.invalid">{{'Login'|translate}}</button>
+          <button class="btn btn-primary mb-4" [disabled]="login.invalid">
+            {{ "Login" | translate }}
+          </button>
         </form>
         <!-- <p class="mb-2 text-muted">
           Forgot password?

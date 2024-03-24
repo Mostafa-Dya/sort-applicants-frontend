@@ -12,25 +12,29 @@ import { TranslationService } from 'src/app/theme/shared/services/translation.se
 })
 export class AuthSignupComponent implements OnInit {
   signupForm: FormGroup;
+  showPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private sharedService: SharedService,
-    private translate:TranslationService,
+    private translate: TranslationService,
   ) {}
 
   ngOnInit(): void {
     this.translate.setLanguage(localStorage.getItem('i18nextLng'));
 
-    this.signupForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required]],
-      password: ['', Validators.required],
-      passwordConfirmation: ['', Validators.required],
-    }, {
-      validators: this.mustMatch('password', 'passwordConfirmation')
-    });
+    this.signupForm = this.fb.group(
+      {
+        name: ['', Validators.required],
+        email: ['', [Validators.required]],
+        password: ['', Validators.required],
+        password_confirmation: ['', Validators.required],
+      },
+      {
+        validators: this.mustMatch('password', 'password_confirmation'),
+      },
+    );
   }
 
   mustMatch(controlName: string, matchingControlName: string) {
@@ -41,7 +45,6 @@ export class AuthSignupComponent implements OnInit {
       if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
         return;
       }
-      
 
       if (control.value !== matchingControl.value) {
         matchingControl.setErrors({ mustMatch: true });
@@ -64,7 +67,7 @@ export class AuthSignupComponent implements OnInit {
   }
 
   get passwordConfirmation() {
-    return this.signupForm.get('passwordConfirmation');
+    return this.signupForm.get('password_confirmation');
   }
 
   signup(): void {
@@ -72,16 +75,22 @@ export class AuthSignupComponent implements OnInit {
       const userData = this.signupForm.value;
       this.authService.register(userData).subscribe(
         () => {
-          this.sharedService.openSnackBar('User registered successfully', 'close');
+          this.sharedService.openSnackBar(
+            'User registered successfully',
+            'close',
+          );
           this.signupForm.reset();
         },
         (error) => {
           console.error('Error registering user:', error);
           // Handle error, show error message, etc.
-        }
+        },
       );
     } else {
       this.signupForm.markAllAsTouched();
     }
+  }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }

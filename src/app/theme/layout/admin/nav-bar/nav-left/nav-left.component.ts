@@ -10,7 +10,7 @@ export class NavLeftComponent {
   constructor(private translationService: TranslationService) {}
 
   changeLanguage(language: string): void {
-    localStorage.setItem('i18nextLng',language)
+    localStorage.setItem('i18nextLng', language);
     this.translationService.setLanguage(language);
   }
 }

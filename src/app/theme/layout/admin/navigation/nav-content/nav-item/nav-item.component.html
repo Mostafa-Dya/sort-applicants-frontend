@@ -12,10 +12,10 @@
     >
       <ng-container *ngTemplateOutlet="itemIcon"></ng-container>
       <span class="pcoded-mtext" *ngIf="item.icon; else directTitle">{{
-        item.title |translate
+        item.title | translate
       }}</span>
       <ng-template #directTitle>
-        {{ item.title |translate}}
+        {{ item.title | translate }}
       </ng-template>
       <ng-container *ngTemplateOutlet="itemBadge"></ng-container>
     </a>
@@ -24,10 +24,10 @@
     <a [target]="item.target ? '_blank' : '_self'" [href]="item.url">
       <ng-container *ngTemplateOutlet="itemIcon"></ng-container>
       <span class="pcoded-mtext" *ngIf="item.icon; else directTitle">{{
-        item.title|translate
+        item.title | translate
       }}</span>
       <ng-template #directTitle>
-        {{ item.title |translate}}
+        {{ item.title | translate }}
       </ng-template>
       <ng-container *ngTemplateOutlet="itemBadge"></ng-container>
     </a>
@@ -43,7 +43,7 @@
       class="pcoded-badge label"
       [ngClass]="item.badge.type"
     >
-      {{ item.badge.title |translate}}
+      {{ item.badge.title | translate }}
     </span>
   </ng-template>
 </ng-container>

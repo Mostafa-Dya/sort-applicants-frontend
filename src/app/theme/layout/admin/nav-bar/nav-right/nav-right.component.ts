@@ -35,13 +35,14 @@ export class NavRightComponent implements OnInit {
   visibleUserList: boolean;
   chatMessage: boolean;
   friendId: boolean;
-  username:string;
-  role:string;
-  constructor(config: NgbDropdownConfig,
-    private authService:AuthService,
+  username: string;
+  role: string;
+  constructor(
+    config: NgbDropdownConfig,
+    private authService: AuthService,
     private router: Router,
-    private tokenAuthService:TokenAuthService
-    ) {
+    private tokenAuthService: TokenAuthService,
+  ) {
     config.placement = 'bottom-right';
     this.visibleUserList = false;
     this.chatMessage = false;
@@ -49,26 +50,26 @@ export class NavRightComponent implements OnInit {
 
   ngOnInit(): void {
     this.role = localStorage.getItem('role');
-    this.username=localStorage.getItem('username');
+    this.username = localStorage.getItem('username');
   }
 
   logout() {
     this.authService.logout().subscribe({
-      next:(res : any) => {
+      next: (res: any) => {
         this.router.navigate(['login']);
         this.tokenAuthService.destroyToken();
       },
-    //  error : (error : any) => {
-    //     this.openSnackBar(error.message, 'Close');
-    //   }
-  });
+      //  error : (error : any) => {
+      //     this.openSnackBar(error.message, 'Close');
+      //   }
+    });
   }
 
   onChatToggle(friend_id) {
     this.friendId = friend_id;
     this.chatMessage = !this.chatMessage;
   }
-  adminPage(){
+  adminPage() {
     this.router.navigate(['/Admin']);
   }
 }

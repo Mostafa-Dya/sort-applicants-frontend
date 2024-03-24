@@ -15,7 +15,7 @@ export class NavGroupComponent implements OnInit {
   constructor(
     private zone: NgZone,
     private location: Location,
-    private translate:TranslationService
+    private translate: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -48,7 +48,5 @@ export class NavGroupComponent implements OnInit {
     }
 
     this.translate.setLanguage(localStorage.getItem('i18nextLng'));
-
   }
-
 }

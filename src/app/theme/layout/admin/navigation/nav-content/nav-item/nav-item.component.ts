@@ -9,17 +9,18 @@ import { TranslationService } from 'src/app/theme/shared/services/translation.se
   templateUrl: './nav-item.component.html',
   styleUrls: ['./nav-item.component.scss'],
 })
-export class NavItemComponent implements OnInit{
+export class NavItemComponent implements OnInit {
   @Input() item: NavigationItem;
   themeLayout: string;
 
-  constructor(private location: Location,
-    private translate:TranslationService) {
+  constructor(
+    private location: Location,
+    private translate: TranslationService,
+  ) {
     this.themeLayout = DattaConfig.layout;
   }
   ngOnInit(): void {
     this.translate.setLanguage(localStorage.getItem('i18nextLng'));
-
   }
   closeOtherMenu(event) {
     if (DattaConfig.layout === 'vertical') {

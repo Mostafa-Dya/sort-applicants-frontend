@@ -1,5 +1,4 @@
 <ul class="navbar-nav">
-
   <li>
     <div class="dropdown drp-user" ngbDropdown placement="auto">
       <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
@@ -14,15 +13,16 @@
             src="../../../../../../assets/images/Minister_symbol.png"
             alt="User-Profile-Image"
           />
-          <span>{{username}}</span>
+          <span>{{ username }}</span>
           <a href="javascript:" class="dud-logout" title="Logout">
             <i (click)="logout()" class="feather icon-log-out"></i>
           </a>
         </div>
         <ul class="pro-body">
-          <li *ngIf="role==='Admin'">
+          <li *ngIf="role === 'Admin'">
             <a href="javascript:" class="dropdown-item" (click)="adminPage()"
-              ><i class="feather icon-settings"></i> {{'Settings'|translate}}</a
+              ><i class="feather icon-settings"></i>
+              {{ "Settings" | translate }}</a
             >
           </li>
           <!-- <li>
@@ -30,7 +30,6 @@
               ><i class="feather icon-user"></i> Profile</a
             >
           </li> -->
-
         </ul>
       </div>
     </div>

@@ -151,7 +151,7 @@ export default class JobDescriptionCardComponent implements OnInit  {
     { name: 'assignees', label: 'Separated Count', sortable: true },
     { name: 'vacancies', label: 'Vacancies Count', sortable: true },
     { name: 'card_number', label: 'Card Number', sortable: true },
-    { name: 'general', label: 'Specialization', sortable: true },
+    // { name: 'general', label: 'Specialization', sortable: true },
     { name: 'record_entry', label: 'Record Entry', sortable: true },
     { name: 'entry_date', label: 'Entry Date', sortable: true },
     { name: 'last_modifier', label: 'Last Modifier', sortable: true },
@@ -491,11 +491,17 @@ export default class JobDescriptionCardComponent implements OnInit  {
     this.excelService.importJobDescriptionHeader(this.file).subscribe(
       () => {
         this.jobDescriptionTable();
-        this.file = null
-        this.selectedFileName = null
+        this.file = null;
+        this.selectedFileName = null;
+        this.sharedService.openSnackBar('Job Description data has been added successfully', 'close');
+        this.getRange();
       },
       error => {
         console.error('Error importing job descriptions:', error);
+        if(error){
+          this.sharedService.openSnackBar('Job Description data has not been added', 'close');
+        }
+
         // Handle error response from the server
       }
     );
@@ -548,7 +554,7 @@ export default class JobDescriptionCardComponent implements OnInit  {
     // Open confirmation dialog to confirm deletion of selected job descriptions
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       position: { top: '10px', left: '10px' },
-      data: { message: 'Are you sure you want to delete selected job descriptions?' }
+      data: { message: 'Are you sure you want to delete selected job descriptions' }
     });
   
     dialogRef.afterClosed().subscribe(result => {
@@ -559,6 +565,8 @@ export default class JobDescriptionCardComponent implements OnInit  {
             // All selected job descriptions deleted successfully
             this.selectedJobIds = []; // Clear the selected IDs array
             this.jobDescriptionTable(); // Refresh the table data
+            this.sharedService.openSnackBar('Selected Job Description has been deleted successfully', 'close');
+
           }
         });
       }

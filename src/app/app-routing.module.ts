@@ -3,13 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 import { CanActivateService } from './Auth/can-active.service';
-import { AuthAdminService } from './Auth/auth-admin.service';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
-    canActivate:[CanActivateService],
+    canActivate: [CanActivateService],
     children: [
       {
         path: '',
@@ -22,11 +21,15 @@ const routes: Routes = [
       // },
       {
         path: 'Admin',
-        loadComponent: () => import('./theme/layout/admin/admin-page/admin-page.component'),
+        loadComponent: () =>
+          import('./theme/layout/admin/admin-page/admin-page.component'),
       },
       {
         path: 'users-permissions/:id',
-        loadComponent: () => import('./theme/layout/admin/admin-page/users-permissions/users-permissions.component'),
+        loadComponent: () =>
+          import(
+            './theme/layout/admin/admin-page/users-permissions/users-permissions.component'
+          ),
       },
       // {
       //   path: 'sort-applicants',

@@ -20,13 +20,13 @@
       <i class="{{ item.icon }}"></i>
     </span>
     <span class="pcoded-mtext"
-      >{{ item.title | translate}}
+      >{{ item.title | translate }}
       <span
         *ngIf="item.badge && themeLayout === 'horizontal'"
         class="badge label"
         [ngClass]="item.badge.type"
       >
-        {{ item.badge.title |translate}}
+        {{ item.badge.title | translate }}
       </span>
     </span>
     <span
@@ -34,7 +34,7 @@
       class="pcoded-badge label"
       [ngClass]="item.badge.type"
     >
-      {{ item.badge.title |translate}}
+      {{ item.badge.title | translate }}
     </span>
   </ng-template>
   <ng-template #subMenuContent>

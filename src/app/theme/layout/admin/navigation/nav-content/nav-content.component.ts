@@ -10,7 +10,6 @@ import {
 import { NavigationItem } from '../navigation';
 import { DattaConfig } from 'src/app/app-config';
 import { Location } from '@angular/common';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nav-content',
@@ -52,7 +51,7 @@ export class NavContentComponent implements OnInit {
         if (navbar) {
           navbar.classList.add('menupos-static');
         }
-  
+
         const navDatta = document.querySelector('#nav-ps-datta') as HTMLElement;
         if (navDatta) {
           navDatta.style.maxHeight = '100%';
@@ -60,7 +59,6 @@ export class NavContentComponent implements OnInit {
       }, 500);
     }
   }
-  
 
   navMob() {
     if (

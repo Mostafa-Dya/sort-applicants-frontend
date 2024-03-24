@@ -322,7 +322,7 @@ onGeneralChange() {
         };
         this.jobDescriptionService.updateJobDescription(this.jobID, formData).subscribe(res => {
           if(res){
-            this.sharedService.openSnackBar("Job Description has been updated succefully ","close")
+            this.sharedService.openSnackBar("Job Description has been updated succefully","close")
             this.router.navigate(['basic/job-description-card']);
           }
          });
@@ -341,7 +341,7 @@ onGeneralChange() {
 
         this.jobDescriptionService.createJobDescription(formData).subscribe(res => {
           if(res){
-            this.sharedService.openSnackBar("Job Description has been added succefully ","close")
+            this.sharedService.openSnackBar("Job Description has been added succefully","close")
             this.router.navigate(['basic/job-description-card']);
           }
         });

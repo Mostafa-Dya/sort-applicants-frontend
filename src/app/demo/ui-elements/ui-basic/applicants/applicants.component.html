@@ -4,27 +4,22 @@
       <button type="button" class="btn btn-primary"  
       *ngIf="(role === 'Admin' || (role === 'User' && permissions.addApplicants === 1))"
       (click)="addApplicants()">
-        <i class="feather icon-thumbs-up"></i>
         {{ 'Add' | translate }}
       </button>
       <button type="button" class="btn btn-primary" (click)="exportApplicantsData()">
-        <i class="feather icon-thumbs-up"></i>
         {{ 'Print' | translate }}
       </button>
       <button type="button" (click)="exportApplicantsHeaders()" class="btn btn-primary">
-        <i class="feather icon-thumbs-up"></i>
         {{ 'Export Template' | translate }}
       </button>
       <button type="button" class="btn btn-primary" 
       *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))"
       (click)="generateResults()">
-        <i class="feather icon-thumbs-up"></i>
         {{ 'Generate Results' | translate }}
       </button>
       <button type="button" class="btn btn-primary" 
       *ngIf="(role === 'Admin' || (role === 'User' && permissions.sortable === 1))"
       (click)="revertResults()">
-        <i class="feather icon-thumbs-up"></i>
         {{ 'Cancel Results' | translate }}
       </button>
 
@@ -72,7 +67,7 @@
                       <div class="col-md-6 form-group" *ngFor="let field of searchFields">
                         <label for="{{ field.name }}">{{ field.label | titlecase | translate }}</label>
                         <select class="form-control" [id]="field.name" *ngIf="searchForm.get(field.name)" [formControlName]="field.name">
-                            <option value="" selected>{{ 'Select' | translate }} {{ field.label }}</option>
+                          <option value="" selected>{{ 'Select ' + field.label | translate }}</option>
                             <option *ngFor="let option of field.options" [value]="option.value">{{ option.label | translate }}</option>
                         </select>
                     </div>
@@ -95,11 +90,11 @@
                             <div class="row">
                               <div class="col-md-6 form-group">
                                 <input type="text" class="form-control" id="certificateGeneral"
-                                  placeholder="General Certificate" formControlName="general" />
+                                  placeholder="{{'General Certificate'|translate}}" formControlName="general" />
                               </div>
                               <div class="col-md-6 form-group">
                                 <input type="text" class="form-control" id="certificatePrecise"
-                                  placeholder="Precise Certificate" formControlName="precise" />
+                                  placeholder="{{'Precise Certificate'|translate}}" formControlName="precise" />
                               </div>
                             </div>
                           </div>
@@ -231,7 +226,7 @@
     <div class="pagination-controls d-flex justify-content-between">
       <div class="d-flex row">
         <div class="col-md-auto mt-auto mb-auto">
-          <span style="width: 100%;" class="">Items Per Page:</span>
+          <span style="width: 100%;" class="">{{'Items Per Page'|translate}}:</span>
         </div>
         <div class="col-md-auto">
           <select class="form-control" [(ngModel)]="pageSizeSelected" (change)="changePageSize(pageSizeSelected)">

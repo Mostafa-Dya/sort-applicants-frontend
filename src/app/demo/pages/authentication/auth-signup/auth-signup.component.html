@@ -9,39 +9,92 @@
     </div>
     <div class="card">
       <div class="card-body text-center">
-        <button style="margin: auto;" routerLink="/" class="btn btn-primary shadow-2 mb-4">{{'Go to Home'|translate}}</button>
+        <button
+          style="margin: auto"
+          routerLink="/"
+          class="btn btn-primary shadow-2 mb-4"
+        >
+          {{ "Go to Home" | translate }}
+        </button>
         <div class="mb-4">
           <i class="feather icon-user-plus auth-icon"></i>
         </div>
-        <h3 class="mb-4">{{'Sign up'|translate}}</h3>
+        <h3 class="mb-4">{{ "Sign up" | translate }}</h3>
         <form [formGroup]="signupForm" (ngSubmit)="signup()">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="{{'Username'|translate}}" formControlName="name" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="{{ 'Username' | translate }}"
+              formControlName="name"
+            />
           </div>
-          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger alignment-sign">
-            <div *ngIf="name.errors['required']">{{'Username is required'|translate}}.</div>
+          <div
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+            class="text-danger alignment-sign"
+          >
+            <div *ngIf="name.errors['required']">
+              {{ "Username is required" | translate }}.
+            </div>
           </div>
           <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="{{'Email'|translate}}" formControlName="email" />
+            <input
+              type="email"
+              class="form-control"
+              placeholder="{{ 'Email' | translate }}"
+              formControlName="email"
+            />
           </div>
-          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger alignment-sign">
-            <div *ngIf="email.errors['required']">{{'Email is required'|translate}}.</div>
+          <div
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="text-danger alignment-sign"
+          >
+            <div *ngIf="email.errors['required']">
+              {{ "Email is required" | translate }}.
+            </div>
           </div>
           <div class="input-group mb-4">
-            <input type="password" class="form-control" placeholder="{{'Password'|translate}}" formControlName="password" />
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="{{ 'Password' | translate }}"
+              formControlName="password"
+            />
           </div>
-          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger alignment-sign">
-            <div *ngIf="password.errors['required']">{{'Password is required'|translate}}.</div>
+          <div
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="text-danger alignment-sign"
+          >
+            <div *ngIf="password.errors['required']">
+              {{ "Password is required" | translate }}.
+            </div>
           </div>
           <div class="input-group mb-4">
-            <input type="password" class="form-control" placeholder="{{'Confirm Password'|translate}}" formControlName="passwordConfirmation" />
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="{{ 'Confirm Password' | translate }}"
+              formControlName="password_confirmation"
+            />
           </div>
-          <div *ngIf="passwordConfirmation.invalid && (passwordConfirmation.dirty || passwordConfirmation.touched)" class="text-danger alignment-sign">
-            <div *ngIf="passwordConfirmation.errors['required']">{{'Confirmation password is required'|translate}}.</div>
-            <div *ngIf="passwordConfirmation.errors['mustMatch']">{{'Passwords must match'|translate}}.</div>
+          <div
+            *ngIf="
+              passwordConfirmation.invalid &&
+              (passwordConfirmation.dirty || passwordConfirmation.touched)
+            "
+            class="text-danger alignment-sign"
+          >
+            <div *ngIf="passwordConfirmation.errors['required']">
+              {{ "Confirmation password is required" | translate }}.
+            </div>
+            <div *ngIf="passwordConfirmation.errors['mustMatch']">
+              {{ "Passwords must match" | translate }}.
+            </div>
           </div>
-          
-          <button type="submit" class="btn btn-primary shadow-2 mb-4">{{'Sign up'|translate}}</button>
+
+          <button type="submit" class="btn btn-primary shadow-2 mb-4">
+            {{ "Sign up" | translate }}
+          </button>
         </form>
       </div>
     </div>

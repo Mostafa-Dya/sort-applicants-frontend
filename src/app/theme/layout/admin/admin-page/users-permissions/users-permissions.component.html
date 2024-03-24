@@ -1,93 +1,139 @@
 <div class="container">
-    <h1>{{'User Permissions'|translate}}</h1>
-    <div>
-      <p>{{'Username'|translate}}: {{ user?.name }}</p>
-      <p>{{'UserRole'|translate}}: {{ user?.role }}</p>
-    </div>
-    <br>
-    <div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>{{'Permission'|translate}}</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ 'Status Check' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.statusCheck"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Sortable' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.sortable"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Add Applicants' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.addApplicants"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Add Certificate' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.addCertificate"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Add Job Description' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.addJobDescription"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Add Governorate' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.addGovernorate"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Add Public' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.addPublic"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Edit Applicants' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.editApplicants"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Edit Certificate' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.editCertificate"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Edit Job Description' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.editJobDescription"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Edit Governorate' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.editGovernorate"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Edit Public' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.editPublic"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Delete Applicants' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.deleteApplicants"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Delete Certificate' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.deleteCertificate"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Delete Job Description' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.deleteJobDescription"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Delete Governorate' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.deleteGovernorate"></td>
-          </tr>
-          <tr>
-            <td>{{ 'Delete Public' | translate }}</td>
-            <td><input type="checkbox" [(ngModel)]="permissions.deletePublic"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <br>
-    <div class="text-center">
-      <button class="btn btn-primary" (click)="updatePermissions()">{{'Update Permissions'|translate}}</button>
-
-    </div>
+  <h1>{{ "User Permissions" | translate }}</h1>
+  <div>
+    <p>{{ "Username" | translate }}: {{ user?.name }}</p>
+    <p>{{ "UserRole" | translate }}: {{ user?.role }}</p>
   </div>
+  <br />
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{{ "Permission" | translate }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ "Status Check" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.statusCheck" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Sortable" | translate }}</td>
+          <td><input type="checkbox" [(ngModel)]="permissions.sortable" /></td>
+        </tr>
+        <tr>
+          <td>{{ "Add Applicants" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.addApplicants" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Add Certificate" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.addCertificate" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Add Job Description" | translate }}</td>
+          <td>
+            <input
+              type="checkbox"
+              [(ngModel)]="permissions.addJobDescription"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Add Governorate" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.addGovernorate" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Add Public" | translate }}</td>
+          <td><input type="checkbox" [(ngModel)]="permissions.addPublic" /></td>
+        </tr>
+        <tr>
+          <td>{{ "Edit Applicants" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.editApplicants" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Edit Certificate" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.editCertificate" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Edit Job Description" | translate }}</td>
+          <td>
+            <input
+              type="checkbox"
+              [(ngModel)]="permissions.editJobDescription"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Edit Governorate" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.editGovernorate" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Edit Public" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.editPublic" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Delete Applicants" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.deleteApplicants" />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Delete Certificate" | translate }}</td>
+          <td>
+            <input
+              type="checkbox"
+              [(ngModel)]="permissions.deleteCertificate"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Delete Job Description" | translate }}</td>
+          <td>
+            <input
+              type="checkbox"
+              [(ngModel)]="permissions.deleteJobDescription"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Delete Governorate" | translate }}</td>
+          <td>
+            <input
+              type="checkbox"
+              [(ngModel)]="permissions.deleteGovernorate"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>{{ "Delete Public" | translate }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="permissions.deletePublic" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br />
+  <div class="text-center">
+    <button class="btn btn-primary" (click)="updatePermissions()">
+      {{ "Update Permissions" | translate }}
+    </button>
+  </div>
+</div>

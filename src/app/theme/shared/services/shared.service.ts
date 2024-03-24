@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslationService } from './translation.service';
 
 export enum Category {
   Category1 = '1',
@@ -21,17 +22,14 @@ enum DesireOrder {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
-
   constructor(
-    private readonly snakBar: MatSnackBar,
-    private readonly zon: NgZone
-    ) { }
-
-
-  
+    private readonly snackBar: MatSnackBar,
+    private readonly zon: NgZone,
+    private translate: TranslationService,
+  ) {}
 
   getCategoryString(category: Category) {
     switch (category) {
@@ -74,17 +72,19 @@ export class SharedService {
     }
   }
 
-  
-  openSnackBar(message: string, action : string) {
-    this.zon.run(() => {
-      this.snakBar.open( message, action, {
-        duration: 4000,
-        horizontalPosition: 'center',
-        panelClass: ['blue-snackbar']
+  openSnackBar(messageKey: string, actionKey: string) {
+    this.translate
+      .getTranslationSnackBar(messageKey)
+      .subscribe((translatedMessage: string) => {
+        this.translate
+          .getTranslationSnackBar(actionKey)
+          .subscribe((translatedAction: string) => {
+            this.snackBar.open(translatedMessage, translatedAction, {
+              duration: 4000,
+              horizontalPosition: 'center',
+              panelClass: ['blue-snackbar'],
+            });
+          });
       });
-    });
   }
-
 }
-
-

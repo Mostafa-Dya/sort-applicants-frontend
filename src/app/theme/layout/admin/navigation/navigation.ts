@@ -96,7 +96,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/governorate',
           },
-          
+
           {
             id: 'public-entities',
             title: 'Public Entities',
@@ -122,7 +122,6 @@ const NavigationItems = [
           //   type: 'item',
           //   url: '/basic/applicants-data',
           // },
-          
         ],
       },
     ],
@@ -211,7 +210,7 @@ const NavigationItems = [
 
 @Injectable()
 export class NavigationItem {
-  constructor(){}
+  constructor() {}
   get() {
     return NavigationItems;
   }

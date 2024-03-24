@@ -5,10 +5,16 @@
     ></a>
   </li>
   <li class="nav-item dropdown" ngbDropdown placement="auto">
-    <a href="javascript:" data-toggle="dropdown" ngbDropdownToggle>{{"Language"|translate}}</a>
+    <a href="javascript:" data-toggle="dropdown" ngbDropdownToggle>{{
+      "Language" | translate
+    }}</a>
     <ul class="dropdown-menu" ngbDropdownMenu>
-      <li><a class="dropdown-item" (click)="changeLanguage('en')">English</a></li>
-      <li><a class="dropdown-item" (click)="changeLanguage('ar')">العربية</a></li>
+      <li>
+        <a class="dropdown-item" (click)="changeLanguage('en')">English</a>
+      </li>
+      <li>
+        <a class="dropdown-item" (click)="changeLanguage('ar')">العربية</a>
+      </li>
       <!-- Add more languages as needed -->
     </ul>
   </li>

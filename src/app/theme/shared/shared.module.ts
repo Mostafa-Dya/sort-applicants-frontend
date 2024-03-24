@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { BreadcrumbModule, CardModule } from './components';
+import { BreadcrumbModule } from './components';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
@@ -20,10 +20,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSortModule } from '@angular/material/sort';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CardModule } from './components/card/card.module';
 
 @NgModule({
-  declarations: [SpinnerComponent, ConfirmationDialogComponent,],
+  declarations: [SpinnerComponent, ConfirmationDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -42,7 +43,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     MatFormFieldModule,
     MatTableModule,
     MatSortModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   exports: [
     CommonModule,
@@ -60,7 +61,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     MatIconModule,
     MatFormFieldModule,
     MatSortModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

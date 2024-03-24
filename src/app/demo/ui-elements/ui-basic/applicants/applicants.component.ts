@@ -285,7 +285,7 @@ export default class ApplicantsComponent implements OnInit  {
       // Open confirmation dialog to confirm deletion of selected applicants
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         position: { top: '10px', left: '10px' },
-        data: { message: 'Are you sure you want to delete selected applicants?' }
+        data: { message: 'Are you sure you want to delete selected applicants' }
       });
     
       dialogRef.afterClosed().subscribe(result => {
@@ -296,6 +296,8 @@ export default class ApplicantsComponent implements OnInit  {
               // All selected applicants deleted successfully
               this.selectedIds = []; // Clear the selected IDs array
               this.applicantTable(); // Refresh the table data
+              this.sharedService.openSnackBar('Selected Applicants has been deleted successfully', 'close');
+
             }
           });
         }
@@ -417,6 +419,7 @@ export default class ApplicantsComponent implements OnInit  {
           this.generateResult.generateResults().subscribe(res=>{
             if(res){
               this.applicantTable();
+              this.sharedService.openSnackBar('Results Generated Successfully', 'close');
             }
           });
         }
@@ -438,6 +441,8 @@ export default class ApplicantsComponent implements OnInit  {
           this.generateResult.cancelResults().subscribe(res=>{
             if(res){
               this.applicantTable();
+              this.sharedService.openSnackBar('Results Reverted Successfully', 'close');
+
             }
           });
         }
@@ -606,10 +611,16 @@ export default class ApplicantsComponent implements OnInit  {
         this.applicantTable();
         this.file=null;
         this.selectedFileName=null;
+        this.sharedService.openSnackBar('Applicants data has been added successfully', 'close');
+        this.getRange();
+
         // Optionally, add any further logic you need upon successful import
       },
       error => {
         console.error('Error importing job descriptions:', error);
+        if(error){
+          this.sharedService.openSnackBar('Applicants data has not been added', 'close');
+        }
         // Handle error response from the server
       }
     );

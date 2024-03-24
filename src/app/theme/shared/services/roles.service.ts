@@ -3,13 +3,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RolesService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private role;
 
@@ -20,9 +18,4 @@ export class RolesService {
   getRole(): string {
     return this.role;
   }
-
-
-
 }
-
-

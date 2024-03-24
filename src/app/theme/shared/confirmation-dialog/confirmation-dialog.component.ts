@@ -9,6 +9,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class ConfirmationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string,flag:boolean }
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string; flag: boolean },
+  ) {}
 }

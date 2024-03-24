@@ -18,7 +18,7 @@ import { AuthService } from 'src/app/Auth/auth.service';
   styleUrls: ['./add-show-applicants.component.scss'],
   standalone: true,
   imports: [SharedModule],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export default class AddShowApplicantsComponent implements OnInit {
   specializationSets: FormArray;
@@ -47,8 +47,8 @@ export default class AddShowApplicantsComponent implements OnInit {
     private scientificCertificateService: ScientificCertificateService,
     private applicantsService: ApplicantsService,
     private route: ActivatedRoute,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.governorateService.getGovernorateData().subscribe((res) => {
@@ -66,29 +66,35 @@ export default class AddShowApplicantsComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching all job description data:', error);
-      }
+      },
     );
 
-    this.scientificCertificateService.getScientificCertificateData().subscribe((res) => {
-      this.allCertificates = res.data.map((certificateGeneral) => {
-        return certificateGeneral.scientific_cert.map((precise) => {
-          return {
-            general: certificateGeneral,
-            precise: precise,
-          };
-        });
-      }).flat();
-    });
+    this.scientificCertificateService
+      .getScientificCertificateData()
+      .subscribe((res) => {
+        this.allCertificates = res.data
+          .map((certificateGeneral) => {
+            return certificateGeneral.scientific_cert.map((precise) => {
+              return {
+                general: certificateGeneral,
+                precise: precise,
+              };
+            });
+          })
+          .flat();
+      });
 
     this.translationService.setLanguage(localStorage.getItem('i18nextLng'));
     this.route.params.subscribe((params) => {
       this.applicantID = params['id'];
       if (this.applicantID) {
-        console.log(this.applicantID)
-        this.applicantsService.getApplicantsByID(this.applicantID).subscribe((res) => {
-          console.log(res)
-          this.setFormData(res);
-        });
+        console.log(this.applicantID);
+        this.applicantsService
+          .getApplicantsByID(this.applicantID)
+          .subscribe((res) => {
+            console.log(res);
+            this.setFormData(res);
+          });
       }
     });
     this.role = localStorage.getItem('role');
@@ -99,13 +105,16 @@ export default class AddShowApplicantsComponent implements OnInit {
   async setFormData(data: any) {
     const parsedCertificate = JSON.parse(data.certificate);
     this.selectedCertificate = this.allCertificates.find(
-      cert => cert.general.name === parsedCertificate.general && cert.precise.name === parsedCertificate.precise
+      (cert) =>
+        cert.general.name === parsedCertificate.general &&
+        cert.precise.name === parsedCertificate.precise,
     );
-  
+
     // Implement logic to set the form values based on the fetched data
     this.mainForm.patchValue({
       governorate: data.governorate,
       category: data.category,
+      gender:data.gender,
       // series: data.series,
       fullName: data.fullName,
       motherName: data.motherName,
@@ -124,21 +133,21 @@ export default class AddShowApplicantsComponent implements OnInit {
       desireOrder: data.desireOrder,
       desiredGovernorate: data.desiredGovernorate,
     });
-  
+
     // Patch certificate values to corresponding form fields
     if (parsedCertificate) {
       this.mainForm.patchValue({
         institute: parsedCertificate.general,
-        exactSpecialization: parsedCertificate.precise
+        exactSpecialization: parsedCertificate.precise,
       });
     }
-  
+
     // Check if specializationData is not null or undefined
     if (data.specialization_data) {
       // Populate specializationData array
       this.specializationSets.clear();
       data.specialization_data.forEach((item) => {
-        console.log(item)
+        console.log(item);
         const specializationGroup = this.fb.group({
           desire: item.desire,
           namedVal: item.namedVal,
@@ -151,37 +160,36 @@ export default class AddShowApplicantsComponent implements OnInit {
       // Populate specializationData array
       this.desireSets.clear();
       data.desire_data.forEach((item) => {
-        console.log(item)
+        console.log(item);
         const desireGroup = this.fb.group({
-            governorateDesire: [item.governorateDesire, Validators.required],
-            publicEntitySide: [item.publicEntitySide, Validators.required],
-            cardNumberDesire: [item.cardNumberDesire, Validators.required],
-            publicEntity: item.publicEntity,
-            numberOfCenters: item.numberOfCenters,
-            jobTitle: item.jobTitle,
-            specialization_needed: this.fb.array([]) // You may need to initialize this array depending on your use case
+          governorateDesire: [item.governorateDesire, Validators.required],
+          publicEntitySide: [item.publicEntitySide, Validators.required],
+          cardNumberDesire: [item.cardNumberDesire, Validators.required],
+          publicEntity: item.publicEntity,
+          numberOfCenters: item.numberOfCenters,
+          jobTitle: item.jobTitle,
+          specialization_needed: this.fb.array([]), // You may need to initialize this array depending on your use case
         });
-    
+
         // Check if specialization_needed is not null before accessing its value
         if (item.specialization_needed) {
-            this.handleDesireGroupChanges(desireGroup); // Call the function to fetch additional values
+          this.handleDesireGroupChanges(desireGroup); // Call the function to fetch additional values
         }
-    
+
         this.desireSets.push(desireGroup);
         this.handleDesireGroupChanges(desireGroup); // Call the function to fetch additional values
-    });
+      });
     }
   }
-  
-
 
   initForm() {
     this.mainForm = this.fb.group({
       governorate: ['', Validators.required],
       category: ['', Validators.required],
+      gender:['',Validators.required],
       fullName: ['', Validators.required],
       motherName: ['', Validators.required],
-      idNumber: ['', Validators.required],
+      idNumber: ['', [Validators.required,Validators.minLength(11)]],
       graduationDate: ['', Validators.required],
       graduationRate: [0, Validators.required],
       birthDate: [''],
@@ -201,7 +209,9 @@ export default class AddShowApplicantsComponent implements OnInit {
     });
 
     this.desireSets = this.mainForm.get('desireData') as FormArray;
-    this.specializationSets = this.mainForm.get('specializationData') as FormArray;
+    this.specializationSets = this.mainForm.get(
+      'specializationData',
+    ) as FormArray;
     this.addSpecializationSet();
     this.addDesireSet();
   }
@@ -227,58 +237,67 @@ export default class AddShowApplicantsComponent implements OnInit {
       jobTitle: [''], // Include jobTitle in the form group
       specialization_needed: this.fb.array([]),
       primarySpecialization: [''],
-      specifiedSpecialization: ['']
+      specifiedSpecialization: [''],
     });
     if (this.desireSets.length < 3) {
       this.desireSets.push(desireGroup);
       this.handleDesireGroupChanges(desireGroup);
-  
+
       desireGroup.get('cardNumberDesire').valueChanges.subscribe(() => {
         this.handleDesireGroupChanges(desireGroup);
       });
-  
+
       desireGroup.get('governorateDesire').valueChanges.subscribe(() => {
         this.handleDesireGroupChanges(desireGroup);
       });
-  
+
       desireGroup.get('publicEntitySide').valueChanges.subscribe(() => {
         this.handleDesireGroupChanges(desireGroup);
       });
     }
   }
-  
 
   handleDesireGroupChanges(desireGroup: FormGroup) {
     const cardNumberDesire = desireGroup.get('cardNumberDesire').value;
     const governorateDesire = desireGroup.get('governorateDesire').value;
     const publicEntitySide = desireGroup.get('publicEntitySide').value;
-  
-    const matchingJobDescription = this.allJobDescriptionData?.find((jobDescription) => {
-      let desiredCardNumber = parseInt(cardNumberDesire);
-      return (
-        jobDescription.card_number === desiredCardNumber &&
-        jobDescription.governorate === governorateDesire &&
-        jobDescription.public_entity === publicEntitySide
-      );
-    });
-  
+
+    const matchingJobDescription = this.allJobDescriptionData?.find(
+      (jobDescription) => {
+        let desiredCardNumber = parseInt(cardNumberDesire);
+        return (
+          jobDescription.card_number === desiredCardNumber &&
+          jobDescription.governorate === governorateDesire &&
+          jobDescription.public_entity === publicEntitySide
+        );
+      },
+    );
+
     if (matchingJobDescription) {
-      console.log(matchingJobDescription.public_entity)
-      const workCenters = matchingJobDescription.vacancies - matchingJobDescription.assignees;
+      console.log(matchingJobDescription.public_entity);
+      const workCenters =
+        matchingJobDescription.vacancies - matchingJobDescription.assignees;
       desireGroup.patchValue({
         publicEntity: matchingJobDescription.public_entity,
         numberOfCenters: workCenters,
         jobTitle: matchingJobDescription.job_title,
-        primarySpecialization: matchingJobDescription.specialization_needed.map(item => item.specialization_needed),
-        specifiedSpecialization: matchingJobDescription.specialization_needed.map(item => item.specialization_needed_precise),
+        primarySpecialization: matchingJobDescription.specialization_needed.map(
+          (item) => item.specialization_needed,
+        ),
+        specifiedSpecialization:
+          matchingJobDescription.specialization_needed.map(
+            (item) => item.specialization_needed_precise,
+          ),
       });
-  
-      const specializationNeededArray = desireGroup.get('specialization_needed') as FormArray;
+
+      const specializationNeededArray = desireGroup.get(
+        'specialization_needed',
+      ) as FormArray;
       specializationNeededArray.clear();
-      matchingJobDescription.specialization_needed.forEach(spec => {
+      matchingJobDescription.specialization_needed.forEach((spec) => {
         const specializationGroup = this.fb.group({
           specialization_needed: spec.specialization_needed,
-          specialization_needed_precise: spec.specialization_needed_precise
+          specialization_needed_precise: spec.specialization_needed_precise,
         });
         specializationNeededArray.push(specializationGroup);
       });
@@ -289,11 +308,10 @@ export default class AddShowApplicantsComponent implements OnInit {
         specialization_needed: [],
         jobTitle: '', // Patch jobTitle
         primarySpecialization: '', // Patch primarySpecialization
-        specifiedSpecialization: '' // Patch specifiedSpecialization
+        specifiedSpecialization: '', // Patch specifiedSpecialization
       });
     }
   }
-  
 
   removeDesireSet(index: number) {
     if (this.desireSets.length > 1) {
@@ -314,10 +332,13 @@ export default class AddShowApplicantsComponent implements OnInit {
   submit() {
     const lastModifier = localStorage.getItem('username');
     const date = new Date();
-    const formattedModificationDate = this.datePipe.transform(date, 'yyyy/MM/dd');
-    
+    const formattedModificationDate = this.datePipe.transform(
+      date,
+      'yyyy/MM/dd',
+    );
+
     if (this.mainForm.valid) {
-      console.log(12)
+      console.log(12);
       const formData = this.mainForm.getRawValue();
 
       if (!this.applicantID) {
@@ -335,16 +356,18 @@ export default class AddShowApplicantsComponent implements OnInit {
         };
       }
 
-      const specializationData = this.specializationSets.controls.map((control) => {
-        return {
-          desire: control.get('desire').value,
-          namedVal: control.get('namedVal').value,
-          cardNumberVal: control.get('cardNumberVal').value,
-        };
-      });
+      const specializationData = this.specializationSets.controls.map(
+        (control) => {
+          return {
+            desire: control.get('desire').value,
+            namedVal: control.get('namedVal').value,
+            cardNumberVal: control.get('cardNumberVal').value,
+          };
+        },
+      );
 
       const desireData = this.desireSets.controls.map((control) => {
-        console.log(control)
+        console.log(control);
         return {
           governorateDesire: control.get('governorateDesire').value,
           publicEntitySide: control.get('publicEntitySide').value,
@@ -361,24 +384,22 @@ export default class AddShowApplicantsComponent implements OnInit {
       if (this.applicantID) {
         formData.status = this.mainForm.get('status').value;
 
-        this.applicantsService.updateApplicants(this.applicantID, formData)
-          .pipe(
-            finalize(() => {})
-          )
+        this.applicantsService
+          .updateApplicants(this.applicantID, formData)
+          .pipe(finalize(() => {}))
           .subscribe(
             (response) => {},
-            (error) => {}
+            (error) => {},
           );
       } else {
-        this.applicantsService.createApplicants(formData)
-          .pipe(
-            finalize(() => {})
-          )
+        this.applicantsService
+          .createApplicants(formData)
+          .pipe(finalize(() => {}))
           .subscribe(
             (response) => {},
             (error) => {
               console.error('Error creating applicant:', error);
-            }
+            },
           );
       }
     } else {
@@ -387,7 +408,8 @@ export default class AddShowApplicantsComponent implements OnInit {
   }
 
   findMatchingJobDescription(formData: any) {
-    const { cardNumberDesire, publicEntitySide, governorateDesire } = formData.desireData[0];
+    const { cardNumberDesire, publicEntitySide, governorateDesire } =
+      formData.desireData[0];
     return this.allJobDescriptionData.find((jobDescription) => {
       return (
         jobDescription.card_number === cardNumberDesire &&
